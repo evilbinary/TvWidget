@@ -43,10 +43,10 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     }
 
     private void init() {
-        setVisibility(INVISIBLE);
         mBorderView = this;
         if(mEffect==null)
             mEffect=BorderBaseEffect.getDefault();
+        setVisibility(INVISIBLE);
     }
 
     public void setScalable(boolean scalable) {
@@ -131,11 +131,13 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         if (v == null) v = oldFocus;
         if (v != null) {
 
-            View focused = v;
+            ViewGroup.LayoutParams params = getLayoutParams();
+            params.height = v.getMeasuredHeight();
+            params.width = v.getMeasuredWidth();
+
+            setVisibility(View.VISIBLE);
             mEffect.start(this,oldFocus,newFocus);
-
-            layout(focused.getLeft(), focused.getTop(), focused.getRight(), focused.getBottom());
-
+            layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
 
         } else {
             setVisibility(INVISIBLE);

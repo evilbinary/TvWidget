@@ -4,7 +4,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import evilbinary.org.tv.util.AnimateFactory;
@@ -38,12 +37,7 @@ public abstract class BorderBaseEffect {
                         AnimateFactory.zoomInView(newFocus, this.mScale, (int) this.mDurationLarge);
                         AnimateFactory.zoomOutView(oldFocus, this.mScale, (int) this.mDurationSmall);
                     }
-                    ViewGroup.LayoutParams params = view.getLayoutParams();
 
-                    params.height = view.getMeasuredHeight();
-                    params.width = view.getMeasuredWidth();
-
-                    view.setVisibility(View.VISIBLE);
 
                     ValueAnimator transAnimatorX = ObjectAnimator.ofFloat(view,
                             "x", view.getLeft(), focused.getLeft());
