@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:clipChildren="false"
     tools:context="evilbinary.org.tv.MainActivity">
 
 
@@ -12,24 +13,24 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="446dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
        >
 
         <RelativeLayout
+            android:gravity="center"
             android:layout_gravity="center"
             android:clipToPadding="false"
-
             android:clipChildren="false"
             android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="500dp">
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="290dp"
                 android:layout_height="446dp"
-                android:background="@color/lightskyblue"
+                android:background="@drawable/shape"
                 android:focusable="true"
                 android:gravity="center"
                 android:text="Hello World!"
