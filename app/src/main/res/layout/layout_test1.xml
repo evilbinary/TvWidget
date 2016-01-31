@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!--第5列-->
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:background="#7cc23b"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hello World2"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+
+
+        />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/textView13"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:background="#f1981a"
+        android:focusable="true"
+
+        android:gravity="center"
+        android:text="Hello World2"
+
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/textView14"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:background="#d67759"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hello World2"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+    <!--第6列-->
+
+    <TextView
+
+        android:id="@+id/textView15"
+
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView14"
+        android:background="#5d42a3"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hello World2"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/textView15"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView14"
+        android:background="#2790ec"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hello World2"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+
+        android:id="@+id/textView17"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/textView16"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/textView14"
+        android:background="#1fbba6"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hello World2"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>
