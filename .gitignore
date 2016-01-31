@@ -26,6 +26,7 @@ build
 *.class
 
 # generated files
+/app/app.iml
 bin/
 gen/
 
