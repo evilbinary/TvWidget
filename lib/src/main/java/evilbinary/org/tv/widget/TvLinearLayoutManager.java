@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * Created by evil on 1/30/16.
+ * 作者:evilbinary on 1/31/16.
+ * 邮箱:rootdebug@163.com
  */
+
 public class TvLinearLayoutManager extends LinearLayoutManager {
 
     private static String TAG="TvLinearLayoutManager";

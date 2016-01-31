@@ -1,8 +1,5 @@
 package evilbinary.org.tv.widget;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,30 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import evilbinary.org.lib.R;
-import evilbinary.org.tv.util.AnimateFactory;
-
 /**
- * Created by evil on 1/31/16.
+ * 作者:evilbinary on 1/31/16.
+ * 邮箱:rootdebug@163.com
  */
-public class BorderView extends RelativeLayout {
+
+public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener {
 
     private ViewGroup mViewGroup;
     private boolean mReversed;
     private boolean mAlreadyAligned;
     private static String TAG = "BorderView";
 
-    private BorderView mBorderView;
 
-//    public static BorderView fromRes(Context context, int layoutRes) {
-//        BorderView border = new BorderView(context);
-//        View.inflate(context, layoutRes, border);
-//        return border;
-//    }
+    private BorderBaseEffect mEffect;
+
+
+    private BorderView mBorderView;
 
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,7 +45,23 @@ public class BorderView extends RelativeLayout {
     private void init() {
         setVisibility(INVISIBLE);
         mBorderView = this;
+        if(mEffect==null)
+            mEffect=BorderBaseEffect.getDefault();
     }
+
+    public void setScalable(boolean scalable) {
+        mEffect.setScalable(scalable);
+    }
+
+    public boolean isScalable() {
+        return mEffect.isScalable();
+    }
+
+    public BorderBaseEffect getEffect(){return mEffect;}
+    public void setEffect(BorderBaseEffect effect){
+        mEffect=effect;
+    }
+
 
     public void attachTo(ViewGroup viewGroup) {
         attachTo(viewGroup, false);
@@ -63,63 +72,7 @@ public class BorderView extends RelativeLayout {
         mAlreadyAligned = alreadyAligned;
         mReversed = isLayoutManagerReversed(viewGroup);
         setupAlignment(viewGroup);
-
-
-        viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                Log.d(TAG, "onGlobalFocusChanged");
-                View v = newFocus;
-                if (v == null) v = oldFocus;
-                if (v != null) {
-
-                    AnimateFactory.zoomInView(newFocus);
-                    if (newFocus != null) {
-                        //newFocus.setBackgroundColor(Color.BLUE);
-                    }
-
-                    AnimateFactory.zoomOutView(oldFocus);
-//                    if (oldFocus != null)
-//                        oldFocus.setBackgroundColor(Color.RED);
-
-                    ViewGroup.LayoutParams params = mBorderView.getLayoutParams();
-                    params.height = v.getMeasuredHeight();
-                    params.width = v.getMeasuredWidth();
-
-                    Log.d(TAG, "h:" + params.height + " w:" + params.width);
-
-
-//                    mBorderView.setTop(v.getTop());
-//                    mBorderView.setBottom(v.getBottom());
-//                    mBorderView.setLeft(v.getLeft());
-//                    mBorderView.setRight(v.getRight());
-
-//                    mBorderView.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                    mBorderView.setVisibility(VISIBLE);
-                    View cursor = mBorderView;
-                    View focused = v;
-                    ValueAnimator transAnimatorX = ObjectAnimator.ofFloat(cursor,
-                            "x", cursor.getLeft(), focused.getLeft());
-                    ValueAnimator transAnimatorY = ObjectAnimator.ofFloat(cursor,
-                            "y", cursor.getTop(), focused.getTop());
-
-
-                    cursor.layout(focused.getLeft(), focused.getTop(), focused.getRight(), focused.getBottom());
-
-
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.play(transAnimatorY).with(transAnimatorX);
-                    animatorSet.setDuration(300);
-                    animatorSet.setInterpolator(new DecelerateInterpolator(1));
-                    animatorSet.start();
-
-                } else {
-                    mBorderView.setVisibility(INVISIBLE);
-                }
-
-
-            }
-        });
+        viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
     }
 
 
@@ -171,4 +124,22 @@ public class BorderView extends RelativeLayout {
         return reversed;
     }
 
+    @Override
+    public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+        Log.d(TAG, "onGlobalFocusChanged");
+        View v = newFocus;
+        if (v == null) v = oldFocus;
+        if (v != null) {
+
+            View focused = v;
+            mEffect.start(this,oldFocus,newFocus);
+
+            layout(focused.getLeft(), focused.getTop(), focused.getRight(), focused.getBottom());
+
+
+        } else {
+            setVisibility(INVISIBLE);
+        }
+
+    }
 }

@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         BorderView border=new BorderView(this);
-        border.setBackgroundResource(R.drawable.item_shadow);
+        border.setBackgroundResource(R.drawable.item_highlight);
 
         RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);

@@ -48,7 +48,7 @@ public class TvTextView extends TextView implements View.OnFocusChangeListener {
 
         mScaleable = a.getBoolean(R.styleable.TvTextView_scaleable, true);
         mKeyNumber = a.getInteger(R.styleable.TvTextView_number, -1);
-        int berderResId = a.getResourceId(R.styleable.TvTextView_borderDrawable, R.drawable.item_shadow);
+        int berderResId = a.getResourceId(R.styleable.TvTextView_borderDrawable, R.drawable.item_highlight);
         mBorderDrawable = getResources().getDrawable(berderResId);
 
         int numberColor = a.getColor(R.styleable.TvTextView_numberColor, Color.WHITE);
