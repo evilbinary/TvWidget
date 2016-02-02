@@ -1,6 +1,6 @@
 # TvWidget
 ==================
-tv常用效果控件，包括焦点、边框处理等。
+tv常用效果控件，包括焦点、边框处理等。qq群:537960195
 
 
 # 截图
@@ -9,7 +9,7 @@ tv常用效果控件，包括焦点、边框处理等。
 
 # 使用
 
-	```BorderView border=new BorderView(this);
+		BorderView border=new BorderView(this);
         border.setBackgroundResource(R.drawable.item_highlight);
 
         RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
