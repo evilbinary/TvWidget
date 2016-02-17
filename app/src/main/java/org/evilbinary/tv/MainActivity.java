@@ -17,29 +17,31 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.layout_test);
         setContentView(R.layout.activity_main);
 
-        BorderView border=new BorderView(this);
+        BorderView border = new BorderView(this);
         border.setBackgroundResource(R.drawable.item_highlight);
 
         RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
 
+
+        //test linearlayout
+//        setContentView(R.layout.layout_test);
 //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//
 //        // 创建一个线性布局管理器
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 //        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 //
-//
-//        GridLayoutManager gridlayoutManager = new GridLayoutManager(this,4);
+
+
+        //test grid
+//        setContentView(R.layout.layout_test);
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//        GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
 //        gridlayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
 //
-//
 //        recyclerView.setLayoutManager(gridlayoutManager);
-//
-
 //        border.attachTo(recyclerView);
 //
 //        // 创建数据集
