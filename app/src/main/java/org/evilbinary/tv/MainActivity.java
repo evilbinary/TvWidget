@@ -32,7 +32,9 @@ public class MainActivity extends Activity {
 //        // 创建一个线性布局管理器
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 //        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//
+//        recyclerView.setLayoutManager(layoutManager);
+//        border.attachTo(recyclerView);
+
 
 
         //test grid
@@ -43,8 +45,8 @@ public class MainActivity extends Activity {
 //
 //        recyclerView.setLayoutManager(gridlayoutManager);
 //        border.attachTo(recyclerView);
-//
-//        // 创建数据集
+
+        // 创建数据集
 //        String[] dataset = new String[100];
 //        for (int i = 0; i < dataset.length; i++) {
 //            dataset[i] = "item" + i;

@@ -39,10 +39,17 @@ public abstract class BorderBaseEffect {
                 if (newFocus != null) {
                     int[] newLocation = new int[2];
                     newFocus.getLocationInWindow(newLocation);
-                    newWidth=(int)((float)newFocus.getMeasuredWidth()*mScale);
-                    newHeight=(int)((float)newFocus.getMeasuredHeight()*mScale);
-                    newX = newLocation[0]+(newFocus.getMeasuredWidth()-newWidth)/2;
-                    newY = newLocation[1]+(newFocus.getMeasuredHeight()-newHeight)/2;
+                    if(mScalable) {
+                        newWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
+                        newHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
+                        newX = newLocation[0] + (newFocus.getMeasuredWidth() - newWidth) / 2;
+                        newY = newLocation[1] + (newFocus.getMeasuredHeight() - newHeight) / 2;
+                    }else{
+                        newWidth=newFocus.getMeasuredWidth();
+                        newHeight=newFocus.getMeasuredHeight();
+                        newX=newLocation[0];
+                        newY=newLocation[1];
+                    }
                 }
                 int oldX = 0;
                 int oldY = 0;
@@ -59,8 +66,13 @@ public abstract class BorderBaseEffect {
                     oldWidth = oldFocus.getMeasuredWidth();
                     oldHeight = oldFocus.getMeasuredHeight();
                 } else {
-                    oldWidth = (int)((float)newFocus.getMeasuredWidth()*mScale);
-                    oldHeight = (int)((float)newFocus.getMeasuredHeight()*mScale);
+                    if(mScalable) {
+                        oldWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
+                        oldHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
+                    }else{
+                        oldWidth=newFocus.getMeasuredWidth();
+                        oldHeight=newFocus.getMeasuredHeight();
+                    }
                 }
 
                 if (newFocus.getRootView() instanceof ViewGroup) {
