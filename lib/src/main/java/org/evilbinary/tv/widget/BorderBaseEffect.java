@@ -33,26 +33,7 @@ public abstract class BorderBaseEffect {
             protected void setupAnimation(View view, View oldFocus, View newFocus) {
 
 
-                int newX = 0;
-                int newY = 0;
-                int newWidth=0;
-                int newHeight=0;
-                if (newFocus != null) {
-                    int[] newLocation = new int[2];
-                    newFocus.getLocationInWindow(newLocation);
-                    if(mScalable) {
-                        newWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
-                        newHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
-                        newX = newLocation[0] + (newFocus.getMeasuredWidth() - newWidth) / 2;
-                        newY = newLocation[1] + (newFocus.getMeasuredHeight() - newHeight) / 2;
-                    }else{
-                        newWidth=newFocus.getMeasuredWidth();
-                        newHeight=newFocus.getMeasuredHeight();
-                        newX=newLocation[0];
-                        newY=newLocation[1];
-                    }
 
-                }
                 int oldX = 0;
                 int oldY = 0;
 
@@ -78,39 +59,61 @@ public abstract class BorderBaseEffect {
 
                 }
 
-
-
-                if (newFocus.getRootView() instanceof ViewGroup) {
-                    ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
-                    if (view.getParent() != viewGroup) {
-                        viewGroup.addView(view);
+                int newX = 0;
+                int newY = 0;
+                int newWidth=0;
+                int newHeight=0;
+                if (newFocus != null) {
+                    int[] newLocation = new int[2];
+                    newFocus.getLocationInWindow(newLocation);
+                    if(mScalable) {
+                        newWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
+                        newHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
+                        newX = newLocation[0] + (newFocus.getMeasuredWidth() - newWidth) / 2;
+                        newY = newLocation[1] + (newFocus.getMeasuredHeight() - newHeight) / 2;
+                    }else{
+                        newWidth=newFocus.getMeasuredWidth();
+                        newHeight=newFocus.getMeasuredHeight();
+                        newX=newLocation[0];
+                        newY=newLocation[1];
                     }
-                    oldWidth+=mMargin*2;
-                    oldHeight+=mMargin*2;
-                    newWidth+=mMargin*2;
-                    newHeight+=mMargin*2;
-                    newX=newX-mMargin;
-                    newY=newY-mMargin;
-                    oldX=oldX-mMargin;
-                    oldY=oldY-mMargin;
 
 
-                    ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(view,
-                            "x", oldX, newX);
-                    ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(view,
-                            "y", oldY, newY);
+                    if (newFocus.getRootView() instanceof ViewGroup) {
+                        ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
+                        if (view.getParent() != viewGroup) {
+                            viewGroup.addView(view);
+                        }
+                        oldWidth+=mMargin*2;
+                        oldHeight+=mMargin*2;
+                        newWidth+=mMargin*2;
+                        newHeight+=mMargin*2;
+                        newX=newX-mMargin;
+                        newY=newY-mMargin;
+                        oldX=oldX-mMargin;
+                        oldY=oldY-mMargin;
 
-                    ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
-                            "width", oldWidth , newWidth);
-                    ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
-                            "height", oldHeight, newHeight );
+
+                        ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(view,
+                                "x", oldX, newX);
+                        ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(view,
+                                "y", oldY, newY);
+
+                        ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
+                                "width", oldWidth , newWidth);
+                        ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
+                                "height", oldHeight, newHeight );
 
 
-                    getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
-                    getAnimatorSet().setDuration(this.mDurationTraslate);
-                    getAnimatorSet().setInterpolator(new DecelerateInterpolator(1));
+                        getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
+                        getAnimatorSet().setDuration(this.mDurationTraslate);
+                        getAnimatorSet().setInterpolator(new DecelerateInterpolator(1));
+
+                    }
 
                 }
+
+
                 if (this.mScalable) {
                     AnimateFactory.zoomInView(newFocus, this.mScale, (int) this.mDurationLarge);
                     AnimateFactory.zoomOutView(oldFocus, this.mScale, (int) this.mDurationSmall);
