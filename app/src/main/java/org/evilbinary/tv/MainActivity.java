@@ -22,7 +22,6 @@ public class MainActivity extends Activity {
         BorderView border = new BorderView(this);
         border.setBackgroundResource(R.drawable.white_light_10);
         border.getEffect().setMargin(12);
-        border.getEffect().setDuration(3000);
         RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
 
