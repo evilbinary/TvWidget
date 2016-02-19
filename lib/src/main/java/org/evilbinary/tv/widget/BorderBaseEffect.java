@@ -19,6 +19,7 @@ public abstract class BorderBaseEffect {
     protected long mDurationLarge = 200;
     protected long mDurationSmall = 200;
     protected long mDurationTraslate = 200;
+    protected int mMargin=0;
 
     private AnimatorSet mAnimatorSet;
 
@@ -27,7 +28,7 @@ public abstract class BorderBaseEffect {
     }
 
     public static BorderBaseEffect getDefault() {
-        BorderBaseEffect b = new BorderBaseEffect() {
+        BorderBaseEffect borderBaseEffect = new BorderBaseEffect() {
             @Override
             protected void setupAnimation(View view, View oldFocus, View newFocus) {
 
@@ -50,6 +51,7 @@ public abstract class BorderBaseEffect {
                         newX=newLocation[0];
                         newY=newLocation[1];
                     }
+
                 }
                 int oldX = 0;
                 int oldY = 0;
@@ -73,22 +75,33 @@ public abstract class BorderBaseEffect {
                         oldWidth=newFocus.getMeasuredWidth();
                         oldHeight=newFocus.getMeasuredHeight();
                     }
+
                 }
+
+
 
                 if (newFocus.getRootView() instanceof ViewGroup) {
                     ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
                     if (view.getParent() != viewGroup) {
                         viewGroup.addView(view);
                     }
+                    oldWidth+=mMargin*2;
+                    oldHeight+=mMargin*2;
+                    newWidth+=mMargin*2;
+                    newHeight+=mMargin*2;
+                    newX=newX-mMargin;
+                    newY=newY-mMargin;
+                    oldX=oldX-mMargin;
+                    oldY=oldY-mMargin;
 
 
                     ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(view,
-                            "x", view.getX(), newX);
+                            "x", oldX, newX);
                     ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(view,
-                            "y", view.getY(), newY);
+                            "y", oldY, newY);
 
                     ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
-                            "width", oldWidth, newWidth);
+                            "width", oldWidth , newWidth);
                     ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
                             "height", oldHeight, newHeight );
 
@@ -105,7 +118,7 @@ public abstract class BorderBaseEffect {
 
             }
         };
-        return b;
+        return borderBaseEffect;
     }
 
     private class WrapView {
@@ -154,6 +167,13 @@ public abstract class BorderBaseEffect {
         this.mScale = scale;
     }
 
+    public int getMargin() {
+        return mMargin;
+    }
+
+    public void setMargin(int mMargin) {
+        this.mMargin = mMargin;
+    }
 
     protected abstract void setupAnimation(View view, View oldFocus, View newFocus);
 

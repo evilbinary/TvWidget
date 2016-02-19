@@ -20,41 +20,41 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         BorderView border = new BorderView(this);
-        border.setBackgroundResource(R.drawable.border_shape);
-
-        RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
+        border.setBackgroundResource(R.drawable.white_light_10);
+        border.getEffect().setMargin(12);
+        border.getEffect().setDuration(3000);
+        RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
 
 
         //test linearlayout
-//        setContentView(R.layout.layout_test);
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        // 创建一个线性布局管理器
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        recyclerView.setLayoutManager(layoutManager);
-//        border.attachTo(recyclerView);
-
+        //        setContentView(R.layout.layout_test);
+        //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        //        // 创建一个线性布局管理器
+        //        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //        recyclerView.setLayoutManager(layoutManager);
+        //        border.attachTo(recyclerView);
 
 
         //test grid
-//        setContentView(R.layout.layout_test);
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
-//        gridlayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-//
-//        recyclerView.setLayoutManager(gridlayoutManager);
-//        border.attachTo(recyclerView);
+        //        setContentView(R.layout.layout_test);
+        //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        //        GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
+        //        gridlayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
+        //
+        //        recyclerView.setLayoutManager(gridlayoutManager);
+        //        border.attachTo(recyclerView);
 
         // 创建数据集
-//        String[] dataset = new String[100];
-//        for (int i = 0; i < dataset.length; i++) {
-//            dataset[i] = "item" + i;
-//        }
-//        // 创建Adapter，并指定数据集
-//        MyAdapter adapter = new MyAdapter(this, dataset);
-//        // 设置Adapter
-//        recyclerView.setAdapter(adapter);
+        //        String[] dataset = new String[100];
+        //        for (int i = 0; i < dataset.length; i++) {
+        //            dataset[i] = "item" + i;
+        //        }
+        //        // 创建Adapter，并指定数据集
+        //        MyAdapter adapter = new MyAdapter(this, dataset);
+        //        // 设置Adapter
+        //        recyclerView.setAdapter(adapter);
 
     }
 
