@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -15,7 +16,7 @@ import android.widget.RelativeLayout;
  * 邮箱:rootdebug@163.com
  */
 
-public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener {
+public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener {
 
     private static String TAG = "BorderView";
 
@@ -61,6 +62,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     public void attachTo(ViewGroup viewGroup) {
         viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
+        viewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
     }
 
 
@@ -79,7 +81,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-        //Log.d(TAG, "onGlobalFocusChanged");
+        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
 
         View v = newFocus;
@@ -91,6 +93,12 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         } else {
             setVisibility(INVISIBLE);
         }
+
+    }
+
+    @Override
+    public void onScrollChanged() {
+        Log.d(TAG, "onScrollChanged");
 
     }
 }

@@ -181,6 +181,9 @@ public abstract class BorderBaseEffect {
         setupAnimation(view, oldFocus, newFocus);
         mAnimatorSet.start();
     }
+    public void restar(){
+        mAnimatorSet.pause();
+    }
 
     public AnimatorSet getAnimatorSet() {
         return mAnimatorSet;

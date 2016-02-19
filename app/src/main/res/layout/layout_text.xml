@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@android:id/text1"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_gravity="center"
-          android:background="@color/coral"
-          android:gravity="center"
-          android:layout_margin="10dp"
-          android:focusable="true"
-          android:textAlignment="center"
-          android:textColor="@color/white"
-          android:textSize="20sp" />
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:layout_margin="12dp"
+        android:background="@color/coral"
+        android:focusable="false">
+
+    <TextView android:id="@+id/textView"
+              android:layout_width="200dp"
+              android:layout_height="200dp"
+              android:layout_above="@+id/button2"
+              android:layout_alignParentStart="true"
+              android:layout_alignParentTop="true"
+              android:layout_gravity="center"
+              android:focusable="false"
+              android:gravity="center"
+              android:textAlignment="center"
+              android:textColor="@color/white" android:textSize="20sp"/>
+    <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:focusable="true" android:text="New Button" android:textColor="@color/white"/>
+    <Button android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentStart="true" android:layout_centerVertical="true" android:focusable="true"
+            android:text="New Button" android:textColor="@color/white"/>
+
+
+</RelativeLayout>
