@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -121,7 +120,6 @@ public abstract class BorderBaseEffect {
                     oldWidth = mOldFocus.getMeasuredWidth();
                     oldHeight = mOldFocus.getMeasuredHeight();
 
-                    mOldFocus.setBackgroundColor(Color.GREEN);
                 } else {
                     oldWidth = newWidth;
                     oldHeight = newHeight;
