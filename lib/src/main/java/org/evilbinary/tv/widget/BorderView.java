@@ -2,7 +2,6 @@ package org.evilbinary.tv.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -78,13 +77,10 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     public void onScrollChanged() {
 //        Log.d(TAG, "onScrollChanged");
         mEffect.notifyChangeAnimation();
-
-
     }
 
     @Override
     public void onGlobalLayout() {
-        Log.d(TAG, "onGlobalLayout");
-        //mEffect.notifyChangeAnimation();
+//        Log.d(TAG, "onGlobalLayout");
     }
 }

@@ -28,9 +28,9 @@ public class MainActivity extends Activity {
 
         RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
-        //testRecyclerViewLinerLayout(border);
+        testRecyclerViewLinerLayout(border);
 
-        testRecyclerViewGridLayoutManager(border);
+//        testRecyclerViewGridLayoutManager(border);
 
 
     }

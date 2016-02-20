@@ -1,11 +1,9 @@
 package org.evilbinary.tv.widget;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -165,29 +163,6 @@ public abstract class BorderBaseEffect {
                 }
             }
 
-            Animator.AnimatorListener animator = new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    animation.setStartDelay(mDurationTraslate);
-                    endDelay = 0;
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            };
-
             private TimeInterpolator finishTimeInterpolator=new TimeInterpolator() {
                 @Override
                 public float getInterpolation(float input) {
@@ -201,8 +176,6 @@ public abstract class BorderBaseEffect {
 
             @Override
             public void notifyChangeAnimation() {
-                Log.d("test", "notifyChangeAnimation");
-
                 if (myEvaluatorX == null) {
                     myEvaluatorX = new MyEvaluator();
                     myEvaluatorY = new MyEvaluator();
