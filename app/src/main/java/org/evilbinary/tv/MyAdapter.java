@@ -1,0 +1,57 @@
+package org.evilbinary.tv;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+/**
+ * 作者:evilbinary on 2/20/16.
+ * 邮箱:rootdebug@163.com
+ */
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+
+    // 数据集
+    private String[] mDataset;
+    private Context mContex;
+
+    public MyAdapter(Context context, String[] dataset) {
+        super();
+        mContex = context;
+        mDataset = dataset;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(mContex).inflate(R.layout.layout_text, viewGroup, false);
+        ViewHolder holder = new ViewHolder(view);
+
+
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        viewHolder.mTextView.setText(mDataset[i]);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataset.length;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView mTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView) itemView.findViewById(R.id.textView);
+
+        }
+    }
+
+
+}
