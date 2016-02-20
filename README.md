@@ -21,7 +21,10 @@ tv常用效果控件，包括焦点、边框处理等。qq群:537960195
 
 
 * evilbinary <rootdebug@163.com> 
+* 个人博客 [http://evilbinary.org](http://evilbinary.org)
 
+#项目主页
+* [https://github.com/evilbinary/TvWidget](https://github.com/evilbinary/TvWidget)
 
 # License
 
