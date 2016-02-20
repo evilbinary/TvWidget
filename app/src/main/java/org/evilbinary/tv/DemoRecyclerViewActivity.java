@@ -19,7 +19,7 @@ public class DemoRecyclerViewActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_recycler_view);
+        setContentView(R.layout.demo_recycler_view);
 
         border = new BorderView(this);
         border.setBackgroundResource(R.drawable.white_light_10);
