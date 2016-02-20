@@ -14,11 +14,14 @@ tv常用效果控件，包括焦点、边框处理等。qq群:537960195
 
         RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
+#打赏我
 
+![喜欢就支持一下](https://github.com/evilbinary/myblog/raw/master/data/s.png)
 # Developed By
 
 
-* evilbinary <rootdebug@163.com>
+* evilbinary <rootdebug@163.com> 
+
 
 # License
 
