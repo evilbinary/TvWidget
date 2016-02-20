@@ -1,10 +1,8 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -15,7 +13,7 @@ import android.widget.RelativeLayout;
  * 邮箱:rootdebug@163.com
  */
 
-public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener  {
+public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private static String TAG = "BorderView";
 
@@ -54,22 +52,8 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     public void attachTo(ViewGroup viewGroup) {
         viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
         viewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
+        viewGroup.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-
-     }
-
-
-    private boolean isLayoutManagerReversed(ViewGroup viewGroup) {
-        boolean reversed = false;
-        if (viewGroup instanceof RecyclerView) {
-            RecyclerView.LayoutManager manager = ((RecyclerView) viewGroup).getLayoutManager();
-            if (manager instanceof LinearLayoutManager) {
-                reversed = ((LinearLayoutManager) manager).getReverseLayout();
-            } else if (manager instanceof StaggeredGridLayoutManager) {
-                reversed = ((StaggeredGridLayoutManager) manager).getReverseLayout();
-            }
-        }
-        return reversed;
     }
 
     @Override
@@ -87,13 +71,20 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
             setVisibility(INVISIBLE);
         }
 
+
     }
 
     @Override
     public void onScrollChanged() {
 //        Log.d(TAG, "onScrollChanged");
-        mEffect.notifyChangeAnimation(this);
+        mEffect.notifyChangeAnimation();
+
 
     }
 
+    @Override
+    public void onGlobalLayout() {
+        Log.d(TAG, "onGlobalLayout");
+        //mEffect.notifyChangeAnimation();
+    }
 }

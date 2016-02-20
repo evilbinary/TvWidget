@@ -3,6 +3,7 @@ package org.evilbinary.tv;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,8 +28,14 @@ public class MainActivity extends Activity {
 
         RelativeLayout main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
+        //testRecyclerViewLinerLayout(border);
+
+        testRecyclerViewGridLayoutManager(border);
 
 
+    }
+
+    private void testRecyclerViewLinerLayout(BorderView border){
         //test linearlayout
         setContentView(R.layout.layout_test);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -37,16 +44,21 @@ public class MainActivity extends Activity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         border.attachTo(recyclerView);
+        createData(recyclerView);
 
-
+    }
+    private void testRecyclerViewGridLayoutManager(final BorderView border){
         //test grid
-//        setContentView(R.layout.layout_test);
-//        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
-//        gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(gridlayoutManager);
-//        border.attachTo(recyclerView);
+        setContentView(R.layout.layout_test);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
+        gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridlayoutManager);
+        border.attachTo(recyclerView);
+        createData(recyclerView);
 
+    }
+    private void createData(RecyclerView recyclerView){
         //创建数据集
         String[] dataset = new String[100];
         for (int i = 0; i < dataset.length; i++) {
@@ -56,11 +68,9 @@ public class MainActivity extends Activity {
         MyAdapter adapter = new MyAdapter(this, dataset);
         // 设置Adapter
         recyclerView.setAdapter(adapter);
-
-
         recyclerView.scrollToPosition(0);
-
     }
+
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 

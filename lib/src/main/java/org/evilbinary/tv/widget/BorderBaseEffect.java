@@ -3,7 +3,9 @@ package org.evilbinary.tv.widget;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -142,6 +144,7 @@ public abstract class BorderBaseEffect {
                 }
 
                 public Float evaluate(float fraction, Float startValue, Float endValue) {
+                    //Log.d("test", "evaluate");
                     endValue = mEndValue;
                     //startValue=mStartValue;
                     float startFloat = startValue.floatValue();
@@ -184,28 +187,42 @@ public abstract class BorderBaseEffect {
 
                 }
             };
+
+            private TimeInterpolator finishTimeInterpolator=new TimeInterpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    return 1;
+                }
+            };
             private MyEvaluator myEvaluatorX;
             private MyEvaluator myEvaluatorY;
             private long endDelay = 0;
-            private long delta=10;
+            private long delta = 10;
 
             @Override
-            protected void notifyChangeAnimation(View view) {
+            public void notifyChangeAnimation() {
+                Log.d("test", "notifyChangeAnimation");
+
                 if (myEvaluatorX == null) {
                     myEvaluatorX = new MyEvaluator();
                     myEvaluatorY = new MyEvaluator();
-                    getAnimatorSet().addListener(animator);
                 }
-                getLocation();
-                myEvaluatorY.setEndValue(newY - mMargin );
-                transAnimatorY.setEvaluator(myEvaluatorY);
+                if (transAnimatorY != null) {
+                    getLocation();
+                    myEvaluatorY.setEndValue(newY - mMargin);
+                    transAnimatorY.setEvaluator(myEvaluatorY);
+                    myEvaluatorX.setEndValue(newX - mMargin);
+                    transAnimatorX.setEvaluator(myEvaluatorX);
+                    if (!getAnimatorSet().isRunning() && !getAnimatorSet().isStarted()) {
+                        endDelay = endDelay + mDurationTraslate / delta;
+                        getAnimatorSet().setInterpolator(finishTimeInterpolator);
+                        getAnimatorSet().setDuration(endDelay);
+                        getAnimatorSet().start();
+                    }
+                }
 
-                myEvaluatorX.setEndValue(newX - mMargin);
-                transAnimatorX.setEvaluator(myEvaluatorX);
-
-                endDelay = endDelay+mDurationTraslate/delta;;
-                getAnimatorSet().setStartDelay(endDelay);
             }
+
 
         };
         return borderBaseEffect;
@@ -267,7 +284,7 @@ public abstract class BorderBaseEffect {
 
     protected abstract void setupAnimation(View view, View oldFocus, View newFocus);
 
-    protected abstract void notifyChangeAnimation(View view);
+    public abstract void notifyChangeAnimation();
 
     public void start(View view, View oldFocus, View newFocus) {
         setupAnimation(view, oldFocus, newFocus);
