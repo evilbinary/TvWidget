@@ -1,7 +1,10 @@
 package org.evilbinary.tv.widget;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -19,7 +22,7 @@ public abstract class BorderBaseEffect {
     protected long mDurationLarge = 200;
     protected long mDurationSmall = 200;
     protected long mDurationTraslate = 200;
-    protected int mMargin=0;
+    protected int mMargin = 0;
 
     private AnimatorSet mAnimatorSet;
 
@@ -29,87 +32,49 @@ public abstract class BorderBaseEffect {
 
     public static BorderBaseEffect getDefault() {
         BorderBaseEffect borderBaseEffect = new BorderBaseEffect() {
+            private View mOldFocus;
+            private View mNewFocus;
+            private View mView;
+            private ObjectAnimator transAnimatorX;
+            private ObjectAnimator transAnimatorY;
+
             @Override
-            protected void setupAnimation(View view, View oldFocus, View newFocus) {
+            protected void setupAnimation(View view, View oldFocus, final View newFocus) {
+                mOldFocus = oldFocus;
+                mNewFocus = newFocus;
+                mView = view;
 
+                getLocation();
 
-
-                int oldX = 0;
-                int oldY = 0;
-
-                int oldWidth = 0;
-                int oldHeight = 0;
-
-                if (oldFocus != null) {
-                    int[] oldLocation = new int[2];
-                    oldFocus.getLocationInWindow(oldLocation);
-                    oldX = oldLocation[0];
-                    oldY = oldLocation[1];
-
-                    oldWidth = oldFocus.getMeasuredWidth();
-                    oldHeight = oldFocus.getMeasuredHeight();
-                } else {
-                    if(mScalable) {
-                        oldWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
-                        oldHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
-                    }else{
-                        oldWidth=newFocus.getMeasuredWidth();
-                        oldHeight=newFocus.getMeasuredHeight();
+                if (newFocus != null && newFocus.getRootView() instanceof ViewGroup) {
+                    ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
+                    if (view.getParent() != viewGroup) {
+                        viewGroup.addView(view);
                     }
-
-                }
-
-                int newX = 0;
-                int newY = 0;
-                int newWidth=0;
-                int newHeight=0;
-                if (newFocus != null) {
-                    int[] newLocation = new int[2];
-                    newFocus.getLocationInWindow(newLocation);
-                    if(mScalable) {
-                        newWidth = (int) ((float) newFocus.getMeasuredWidth() * mScale);
-                        newHeight = (int) ((float) newFocus.getMeasuredHeight() * mScale);
-                        newX = newLocation[0] + (newFocus.getMeasuredWidth() - newWidth) / 2;
-                        newY = newLocation[1] + (newFocus.getMeasuredHeight() - newHeight) / 2;
-                    }else{
-                        newWidth=newFocus.getMeasuredWidth();
-                        newHeight=newFocus.getMeasuredHeight();
-                        newX=newLocation[0];
-                        newY=newLocation[1];
-                    }
+                    oldWidth += mMargin * 2;
+                    oldHeight += mMargin * 2;
+                    newWidth += mMargin * 2;
+                    newHeight += mMargin * 2;
+                    newX = newX - mMargin;
+                    newY = newY - mMargin;
+                    oldX = oldX - mMargin;
+                    oldY = oldY - mMargin;
 
 
-                    if (newFocus.getRootView() instanceof ViewGroup) {
-                        ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
-                        if (view.getParent() != viewGroup) {
-                            viewGroup.addView(view);
-                        }
-                        oldWidth+=mMargin*2;
-                        oldHeight+=mMargin*2;
-                        newWidth+=mMargin*2;
-                        newHeight+=mMargin*2;
-                        newX=newX-mMargin;
-                        newY=newY-mMargin;
-                        oldX=oldX-mMargin;
-                        oldY=oldY-mMargin;
+                    transAnimatorX = ObjectAnimator.ofFloat(view,
+                            "x", oldX, newX);
+                    transAnimatorY = ObjectAnimator.ofFloat(view,
+                            "y", oldY, newY);
 
 
-                        ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(view,
-                                "x", oldX, newX);
-                        ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(view,
-                                "y", oldY, newY);
+                    ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
+                            "width", oldWidth, newWidth);
+                    ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
+                            "height", oldHeight, newHeight);
 
-                        ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
-                                "width", oldWidth , newWidth);
-                        ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
-                                "height", oldHeight, newHeight );
-
-
-                        getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
-                        getAnimatorSet().setDuration(this.mDurationTraslate);
-                        getAnimatorSet().setInterpolator(new DecelerateInterpolator(1));
-
-                    }
+                    getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
+                    getAnimatorSet().setDuration(this.mDurationTraslate);
+                    getAnimatorSet().setInterpolator(new DecelerateInterpolator(1));
 
                 }
 
@@ -120,6 +85,130 @@ public abstract class BorderBaseEffect {
                 }
 
             }
+
+            private int newX = 0;
+            private int newY = 0;
+            private int newWidth = 0;
+            private int newHeight = 0;
+            private int oldX = 0;
+            private int oldY = 0;
+            private int oldWidth = 0;
+            private int oldHeight = 0;
+
+            private void getLocation() {
+                if (mNewFocus != null) {
+                    int[] newLocation = new int[2];
+                    mNewFocus.getLocationOnScreen(newLocation);
+                    if (mScalable) {
+                        newWidth = (int) ((float) mNewFocus.getMeasuredWidth() * mScale);
+                        newHeight = (int) ((float) mNewFocus.getMeasuredHeight() * mScale);
+                        newX = newLocation[0] + (mNewFocus.getMeasuredWidth() - newWidth) / 2;
+                        newY = newLocation[1] + (mNewFocus.getMeasuredHeight() - newHeight) / 2;
+                    } else {
+                        newWidth = mNewFocus.getMeasuredWidth();
+                        newHeight = mNewFocus.getMeasuredHeight();
+                        newX = newLocation[0];
+                        newY = newLocation[1];
+                    }
+
+                }
+                if (mOldFocus != null) {
+                    int[] oldLocation = new int[2];
+                    mOldFocus.getLocationOnScreen(oldLocation);
+                    oldX = oldLocation[0];
+                    oldY = oldLocation[1];
+
+                    oldWidth = mOldFocus.getMeasuredWidth();
+                    oldHeight = mOldFocus.getMeasuredHeight();
+
+                    mOldFocus.setBackgroundColor(Color.GREEN);
+                } else {
+                    oldWidth = newWidth;
+                    oldHeight = newHeight;
+                    oldX = newX;
+                    oldY = newY;
+
+                }
+            }
+
+            class MyEvaluator implements TypeEvaluator<Float> {
+                private float mEndValue;
+                private float mStartValue;
+
+                public MyEvaluator() {
+
+                }
+
+                public MyEvaluator(float mEndValue) {
+                    this.mEndValue = mEndValue;
+                }
+
+                public Float evaluate(float fraction, Float startValue, Float endValue) {
+                    endValue = mEndValue;
+                    //startValue=mStartValue;
+                    float startFloat = startValue.floatValue();
+                    return startFloat + fraction * (endValue.floatValue() - startFloat);
+                }
+
+                public void setEndValue(float endValue) {
+                    this.mEndValue = endValue;
+                }
+
+                public void setStartValue(float startValue) {
+                    this.mStartValue = startValue;
+                }
+
+                public void setValue(float startValue, float endValue) {
+                    this.mEndValue = endValue;
+                    this.mStartValue = startValue;
+                }
+            }
+
+            Animator.AnimatorListener animator = new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animation.setStartDelay(mDurationTraslate);
+                    endDelay = 0;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            };
+            private MyEvaluator myEvaluatorX;
+            private MyEvaluator myEvaluatorY;
+            private long endDelay = 0;
+            private long delta=10;
+
+            @Override
+            protected void notifyChangeAnimation(View view) {
+                if (myEvaluatorX == null) {
+                    myEvaluatorX = new MyEvaluator();
+                    myEvaluatorY = new MyEvaluator();
+                    getAnimatorSet().addListener(animator);
+                }
+                getLocation();
+                myEvaluatorY.setEndValue(newY - mMargin );
+                transAnimatorY.setEvaluator(myEvaluatorY);
+
+                myEvaluatorX.setEndValue(newX - mMargin);
+                transAnimatorX.setEvaluator(myEvaluatorX);
+
+                endDelay = endDelay+mDurationTraslate/delta;;
+                getAnimatorSet().setStartDelay(endDelay);
+            }
+
         };
         return borderBaseEffect;
     }
@@ -180,13 +269,13 @@ public abstract class BorderBaseEffect {
 
     protected abstract void setupAnimation(View view, View oldFocus, View newFocus);
 
+    protected abstract void notifyChangeAnimation(View view);
+
     public void start(View view, View oldFocus, View newFocus) {
         setupAnimation(view, oldFocus, newFocus);
         mAnimatorSet.start();
     }
-    public void restar(){
-        mAnimatorSet.pause();
-    }
+
 
     public AnimatorSet getAnimatorSet() {
         return mAnimatorSet;
