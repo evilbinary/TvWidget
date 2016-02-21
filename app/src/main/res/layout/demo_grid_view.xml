@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+
+    android:orientation="vertical">
+
+
+    <org.evilbinary.tv.MyGridView
+        android:id="@+id/gridView"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:clipChildren="false"
+        android:columnWidth="200dp"
+        android:focusable="false"
+        android:gravity="center_vertical"
+        android:horizontalSpacing="3dp"
+        android:numColumns="auto_fit"
+        android:scrollbars="vertical"
+        android:focusableInTouchMode="true"
+        android:verticalSpacing="6dp" />
+
+
+</LinearLayout>

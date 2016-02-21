@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DemoRecyclerViewActivity"/>
+        <activity android:name=".DemoGridViewActivity"/>
+
     </application>
 
 </manifest>
