@@ -1,6 +1,7 @@
 package org.evilbinary.tv.widget;
 
 import android.animation.AnimatorSet;
+import android.animation.FloatEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
@@ -36,6 +37,9 @@ public abstract class BorderBaseEffect {
             private View mView;
             private ObjectAnimator transAnimatorX;
             private ObjectAnimator transAnimatorY;
+            private ObjectAnimator scaleX;
+            private ObjectAnimator scaleY;
+
 
             @Override
             protected void setupAnimation(View view, View oldFocus, final View newFocus) {
@@ -59,21 +63,31 @@ public abstract class BorderBaseEffect {
                     oldX = oldX - mMargin;
                     oldY = oldY - mMargin;
 
+                    if (transAnimatorX == null) {
+                        transAnimatorX = ObjectAnimator.ofFloat(view,
+                                "x", oldX, newX);
+                        transAnimatorY = ObjectAnimator.ofFloat(view,
+                                "y", oldY, newY);
+                        scaleX = ObjectAnimator.ofInt(new WrapView(view),
+                                "width", oldWidth, newWidth);
+                        scaleY = ObjectAnimator.ofInt(new WrapView(view),
+                                "height", oldHeight, newHeight);
+                        floatEvaluator= new FloatEvaluator();
+                        getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
 
-                    transAnimatorX = ObjectAnimator.ofFloat(view,
-                            "x", oldX, newX);
-                    transAnimatorY = ObjectAnimator.ofFloat(view,
-                            "y", oldY, newY);
+                    } else {
+                        transAnimatorX.setEvaluator(floatEvaluator);
+                        transAnimatorY.setEvaluator(floatEvaluator);
 
+                        transAnimatorX.setFloatValues(oldX, newX);
+                        transAnimatorY.setFloatValues(oldY, newY);
+                        scaleX.setIntValues(oldWidth, newWidth);
+                        scaleY.setIntValues(oldHeight, newHeight);
 
-                    ObjectAnimator scaleX = ObjectAnimator.ofInt(new WrapView(view),
-                            "width", oldWidth, newWidth);
-                    ObjectAnimator scaleY = ObjectAnimator.ofInt(new WrapView(view),
-                            "height", oldHeight, newHeight);
+                    }
 
-                    getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
+                    getAnimatorSet().setInterpolator(decelerateInterpolator);
                     getAnimatorSet().setDuration(this.mDurationTraslate);
-                    getAnimatorSet().setInterpolator(new DecelerateInterpolator(1));
 
                 }
 
@@ -93,10 +107,16 @@ public abstract class BorderBaseEffect {
             private int oldY = 0;
             private int oldWidth = 0;
             private int oldHeight = 0;
+            int[] newLocation = new int[2];
+            int[] oldLocation = new int[2];
+
+            private FloatEvaluator floatEvaluator;
+
+            private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(1);
 
             private void getLocation() {
                 if (mNewFocus != null) {
-                    int[] newLocation = new int[2];
+
                     mNewFocus.getLocationOnScreen(newLocation);
                     if (mScalable) {
                         newWidth = (int) ((float) mNewFocus.getMeasuredWidth() * mScale);
@@ -112,7 +132,7 @@ public abstract class BorderBaseEffect {
 
                 }
                 if (mOldFocus != null) {
-                    int[] oldLocation = new int[2];
+
                     mOldFocus.getLocationOnScreen(oldLocation);
                     oldX = oldLocation[0];
                     oldY = oldLocation[1];
@@ -163,7 +183,7 @@ public abstract class BorderBaseEffect {
                 }
             }
 
-            private TimeInterpolator finishTimeInterpolator=new TimeInterpolator() {
+            private TimeInterpolator finishTimeInterpolator = new TimeInterpolator() {
                 @Override
                 public float getInterpolation(float input) {
                     return 1;
@@ -176,11 +196,14 @@ public abstract class BorderBaseEffect {
 
             @Override
             public void notifyChangeAnimation() {
+
                 if (myEvaluatorX == null) {
                     myEvaluatorX = new MyEvaluator();
                     myEvaluatorY = new MyEvaluator();
                 }
+
                 if (transAnimatorY != null) {
+                    getAnimatorSet().end();
                     getLocation();
                     myEvaluatorY.setEndValue(newY - mMargin);
                     transAnimatorY.setEvaluator(myEvaluatorY);
@@ -262,6 +285,7 @@ public abstract class BorderBaseEffect {
     public void start(View view, View oldFocus, View newFocus) {
         setupAnimation(view, oldFocus, newFocus);
         mAnimatorSet.start();
+
     }
 
 
