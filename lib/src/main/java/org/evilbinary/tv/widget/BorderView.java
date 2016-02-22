@@ -2,17 +2,19 @@ package org.evilbinary.tv.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
+
 
 /**
  * 作者:evilbinary on 1/31/16.
  * 邮箱:rootdebug@163.com
  */
 
-public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
 
     private static String TAG = "BorderView";
 
@@ -22,6 +24,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     private BorderView mBorderView;
     private boolean mEnableBorder = true;
+    private ViewGroup mViewGroup;
 
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,27 +52,20 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     }
 
     public void attachTo(ViewGroup viewGroup) {
+        mViewGroup = viewGroup;
         viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
         viewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
         viewGroup.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        viewGroup.getViewTreeObserver().addOnTouchModeChangeListener(this);
 
     }
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//        Log.d(TAG, "onGlobalFocusChanged");
+        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
 
-        View v = newFocus;
-        if (v == null) v = oldFocus;
-        if (v != null) {
-            setVisibility(View.VISIBLE);
-            mEffect.start(this, oldFocus, newFocus);
-
-        } else {
-            setVisibility(INVISIBLE);
-        }
-
+        mEffect.start(this, oldFocus, newFocus);
 
     }
 
@@ -82,5 +78,19 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     @Override
     public void onGlobalLayout() {
 //        Log.d(TAG, "onGlobalLayout");
+    }
+
+    @Override
+    public void onTouchModeChanged(boolean isInTouchMode) {
+        Log.d(TAG, "onTouchModeChanged=" + isInTouchMode);
+        if (mViewGroup != null) {
+            if (isInTouchMode) {
+                mEnableBorder = false;
+                mEffect.end(this);
+
+            } else {
+                mEnableBorder = true;
+            }
+        }
     }
 }

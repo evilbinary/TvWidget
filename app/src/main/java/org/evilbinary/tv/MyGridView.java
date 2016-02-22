@@ -24,11 +24,23 @@ public class MyGridView extends GridView {
         super(context, attrs, defStyle);
     }
 
+    @Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+        int expandSpec = MeasureSpec.makeMeasureSpec(
+                Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        this.smoothScrollBy(0,100);
+        return super.dispatchKeyEvent(event);
     }
 }

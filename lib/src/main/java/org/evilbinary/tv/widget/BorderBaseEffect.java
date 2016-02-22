@@ -285,6 +285,12 @@ public abstract class BorderBaseEffect {
     public void start(View view, View oldFocus, View newFocus) {
         setupAnimation(view, oldFocus, newFocus);
         mAnimatorSet.start();
+        view.setVisibility(View.VISIBLE);
+
+    }
+    public void end(View view){
+        mAnimatorSet.end();
+        view.setVisibility(View.GONE);
 
     }
 

@@ -31,10 +31,9 @@ public class DemoGridViewActivity extends Activity {
         SimpleAdapter simpleAdapter=new SimpleAdapter(this, data, R.layout.item, from, to);
         gridView.setAdapter(simpleAdapter);
         simpleAdapter.notifyDataSetChanged();
-        gridView.requestFocus();
-        gridView.setSelection(0);
 
-        //gridView.setFocusable(false);
+
+        gridView.setFocusable(false);
 //       gridView.getAdapter().registerDataSetObserver(new DataSetObserver() {
 //           @Override
 //           public void onChanged() {
