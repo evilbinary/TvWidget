@@ -2,7 +2,6 @@ package org.evilbinary.tv.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,6 +24,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     private BorderView mBorderView;
     private boolean mEnableBorder = true;
     private ViewGroup mViewGroup;
+    private boolean mInTouchMode = false;
 
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -62,9 +62,9 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-        Log.d(TAG, "onGlobalFocusChanged");
+//        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
-
+        if (mInTouchMode) return;
         mEffect.start(this, oldFocus, newFocus);
 
     }
@@ -82,14 +82,14 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     @Override
     public void onTouchModeChanged(boolean isInTouchMode) {
-        Log.d(TAG, "onTouchModeChanged=" + isInTouchMode);
+//        Log.d(TAG, "onTouchModeChanged=" + isInTouchMode);
         if (mViewGroup != null) {
             if (isInTouchMode) {
-                mEnableBorder = false;
+                mInTouchMode = true;
                 mEffect.end(this);
 
             } else {
-                mEnableBorder = true;
+                mInTouchMode = false;
             }
         }
     }
