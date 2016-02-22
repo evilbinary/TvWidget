@@ -6,23 +6,46 @@
 
     android:orientation="vertical">
 
-
-    <org.evilbinary.tv.MyGridView
-        android:id="@+id/gridView"
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_height="match_parent"
+
         android:clipChildren="false"
-        android:columnWidth="200dp"
-        android:focusable="false"
-        android:gravity="center_vertical"
-        android:horizontalSpacing="3dp"
-        android:numColumns="auto_fit"
-        android:scrollbars="vertical"
-        android:focusableInTouchMode="true"
-        android:verticalSpacing="6dp" />
+        android:scrollbars="none">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:orientation="horizontal">
+
+                <org.evilbinary.tv.MyGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:clipChildren="false"
+                    android:columnWidth="200dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="auto_fit"
+
+                    android:scrollbars="vertical"
+                    android:verticalSpacing="6dp" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
 
 
 </LinearLayout>

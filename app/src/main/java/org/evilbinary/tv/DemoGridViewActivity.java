@@ -17,32 +17,23 @@ import java.util.Map;
  */
 public class DemoGridViewActivity extends Activity {
     private List<Map<String, Object>> data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_grid_view);
 
-        final MyGridView gridView= (MyGridView) findViewById(R.id.gridView);
+        MyGridView gridView = (MyGridView) findViewById(R.id.gridView);
 
         getData();
-        String [] from ={"text"};
-        int [] to = {R.id.textView};
+        String[] from = {"text"};
+        int[] to = {R.id.textView};
 
-        SimpleAdapter simpleAdapter=new SimpleAdapter(this, data, R.layout.item, from, to);
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.item, from, to);
         gridView.setAdapter(simpleAdapter);
         simpleAdapter.notifyDataSetChanged();
 
-
-        gridView.setFocusable(false);
-//       gridView.getAdapter().registerDataSetObserver(new DataSetObserver() {
-//           @Override
-//           public void onChanged() {
-//               super.onChanged();
-//               scrollView.smoothScrollTo(0,0);
-//           }
-//       });
-
-        BorderView borderView=new BorderView(this);
+        BorderView borderView = new BorderView(this);
 
         borderView.setBackgroundResource(R.drawable.white_light_10);
         borderView.getEffect().setMargin(12);
@@ -51,12 +42,11 @@ public class DemoGridViewActivity extends Activity {
     }
 
 
-
-    public List<Map<String, Object>> getData(){
-        data=new ArrayList<Map<String, Object>>();
-         for(int i=0;i<100;i++){
+    public List<Map<String, Object>> getData() {
+        data = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < 100; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("text", "item"+i);
+            map.put("text", "item" + i);
             data.add(map);
         }
 

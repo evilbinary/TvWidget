@@ -1,6 +1,7 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,10 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     @Override
     public void onScrollChanged() {
 //        Log.d(TAG, "onScrollChanged");
-        mEffect.notifyChangeAnimation();
+        if (mViewGroup instanceof RecyclerView) {
+            mEffect.notifyChangeAnimation();
+        }
+
     }
 
     @Override

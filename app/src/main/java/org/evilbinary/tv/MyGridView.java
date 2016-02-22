@@ -2,7 +2,6 @@ package org.evilbinary.tv;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.widget.GridView;
 
 /**
@@ -17,11 +16,12 @@ public class MyGridView extends GridView {
 
     public MyGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        setFocusable(false);
     }
 
     public MyGridView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setFocusable(false);
     }
 
     @Override
@@ -32,15 +32,5 @@ public class MyGridView extends GridView {
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        this.smoothScrollBy(0,100);
-        return super.dispatchKeyEvent(event);
-    }
 }

@@ -25,29 +25,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
         main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
 
-        for(int i=0;i<main.getChildCount();i++)
+        for (int i = 0; i < main.getChildCount(); i++) {
             main.getChildAt(i).setOnClickListener(this);
+        }
 
 
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         if (v == main.getChildAt(0)) {
-            intent.setClass(this,DemoRecyclerViewActivity.class);
+            intent.setClass(this, DemoRecyclerViewActivity.class);
             intent.putExtra("linerLayout", "");
             startActivity(intent);
         } else if (v == main.getChildAt(1)) {
             intent.setClass(this, DemoRecyclerViewActivity.class);
             intent.putExtra("gridLayout", "");
             startActivity(intent);
+        }else if (v == main.getChildAt(2)) {
+            intent.setClass(this, DemoGridViewActivity.class);
+            startActivity(intent);
         }
 
     }
-
-
-
 
 
 }
