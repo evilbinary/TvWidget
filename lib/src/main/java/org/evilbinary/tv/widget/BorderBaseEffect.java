@@ -7,7 +7,9 @@ import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import org.evilbinary.tv.util.AnimateFactory;
 
@@ -72,7 +74,7 @@ public abstract class BorderBaseEffect {
                                 "width", oldWidth, newWidth);
                         scaleY = ObjectAnimator.ofInt(new WrapView(view),
                                 "height", oldHeight, newHeight);
-                        floatEvaluator= new FloatEvaluator();
+                        floatEvaluator = new FloatEvaluator();
                         getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
 
                     } else {
@@ -93,12 +95,25 @@ public abstract class BorderBaseEffect {
 
 
                 if (this.mScalable) {
-                    AnimateFactory.zoomInView(newFocus, this.mScale, (int) this.mDurationLarge);
-                    AnimateFactory.zoomOutView(oldFocus, this.mScale, (int) this.mDurationSmall);
+                    if (oldFocus == null) {
+                        Animation anim = AnimateFactory.zoomAnimation(1.0f, mScale, 0);
+                        anim.setInterpolator(finishInterpolator);
+                        if (newFocus != null)
+                            newFocus.startAnimation(anim);
+                    } else {
+                        AnimateFactory.zoomInView(newFocus, this.mScale, (int) this.mDurationLarge);
+                        AnimateFactory.zoomOutView(oldFocus, this.mScale, (int) this.mDurationSmall);
+                    }
                 }
 
             }
 
+            private Interpolator finishInterpolator = new Interpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    return 1;
+                }
+            };
             private int newX = 0;
             private int newY = 0;
             private int newWidth = 0;
@@ -288,7 +303,8 @@ public abstract class BorderBaseEffect {
         view.setVisibility(View.VISIBLE);
 
     }
-    public void end(View view){
+
+    public void end(View view) {
         mAnimatorSet.end();
         view.setVisibility(View.GONE);
 
