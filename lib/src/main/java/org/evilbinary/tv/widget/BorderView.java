@@ -1,11 +1,16 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 
@@ -26,6 +31,8 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     private boolean mEnableBorder = true;
     private ViewGroup mViewGroup;
     private boolean mInTouchMode = false;
+
+    private AdapterView.OnItemSelectedListener mOnItemSelectedListener;
 
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,12 +59,13 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         mEffect = effect;
     }
 
+
     public void attachTo(ViewGroup viewGroup) {
         mViewGroup = viewGroup;
-        viewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
-        viewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
-        viewGroup.getViewTreeObserver().addOnGlobalLayoutListener(this);
-        viewGroup.getViewTreeObserver().addOnTouchModeChangeListener(this);
+        mViewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
+        mViewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
+        mViewGroup.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        mViewGroup.getViewTreeObserver().addOnTouchModeChangeListener(this);
 
     }
 
@@ -66,22 +74,56 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 //        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
         if (mInTouchMode) return;
+
+        if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
+            AbsListView gridView = (AbsListView) mViewGroup;
+            if (mOnItemSelectedListener == null) {
+                mOnItemSelectedListener = gridView.getOnItemSelectedListener();
+                if (gridView.getSelectedView() != null) {
+                    newFocus = gridView.getSelectedView();
+                }
+                final View tempFocus=newFocus;
+                gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    private View oldFocus = tempFocus;
+                    private View newFocus = null;
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        newFocus = view;
+                        mEffect.start(mBorderView, oldFocus, newFocus);
+                        oldFocus = newFocus;
+                        if (mOnItemSelectedListener != null)
+                            mOnItemSelectedListener.onItemSelected(parent, view, position, id);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        mOnItemSelectedListener.onNothingSelected(parent);
+
+                    }
+                });
+            }
+        }
+
         mEffect.start(this, oldFocus, newFocus);
+
 
     }
 
     @Override
     public void onScrollChanged() {
 //        Log.d(TAG, "onScrollChanged");
-        if (mViewGroup instanceof RecyclerView) {
-            mEffect.notifyChangeAnimation();
-        }
+        //if (mViewGroup instanceof RecyclerView) {
+        mEffect.notifyChangeAnimation();
+        //}
 
     }
 
     @Override
     public void onGlobalLayout() {
 //        Log.d(TAG, "onGlobalLayout");
+
+
     }
 
     @Override
@@ -97,4 +139,13 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
             }
         }
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown");
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

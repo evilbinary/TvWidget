@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".DemoRecyclerViewActivity"/>
         <activity android:name=".DemoGridViewActivity"/>
+        <activity android:name=".DemoListViewActivity"/>
 
     </application>
 

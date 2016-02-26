@@ -47,6 +47,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             intent.setClass(this, DemoGridViewActivity.class);
             startActivity(intent);
         }
+        else if (v == main.getChildAt(3)) {
+            intent.setClass(this, DemoListViewActivity.class);
+            startActivity(intent);
+        }
 
     }
 

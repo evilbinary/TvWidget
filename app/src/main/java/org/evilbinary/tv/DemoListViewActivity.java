@@ -2,71 +2,44 @@ package org.evilbinary.tv;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.evilbinary.tv.widget.BorderView;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 作者:evilbinary on 2/22/16.
  * 邮箱:rootdebug@163.com
  */
-public class DemoGridViewActivity extends Activity {
+public class DemoListViewActivity extends Activity {
+    private List<Map<String, Object>> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.demo_grid_view);
+        setContentView(R.layout.demo_list_view);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
+        ListView listView = (ListView) findViewById(R.id.listView);
 
-
-        MyAdapter myAdapter = new MyAdapter();
-        gridView.setAdapter(myAdapter);
+        MyAdapter myAdapter=new MyAdapter();
+        listView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
+
+        listView.setSelected(true);
+        listView.setSelection(0);
 
         BorderView borderView = new BorderView(this);
 
         borderView.setBackgroundResource(R.drawable.white_light_10);
         borderView.getEffect().setMargin(12);
-        borderView.attachTo(gridView);
-
-        gridView.setSelected(true);
-        gridView.setSelection(0);
-
-        gridView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d("tt", "onFocusChange");
-            }
-        });
-//        gridView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//
-//                return false;
-//            }
-//        });
-
-        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("tt", "onItemSelected");
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.d("tt", "onNothingSelected");
-
-            }
-        });
+        borderView.attachTo(listView);
 
     }
 
@@ -94,7 +67,7 @@ public class DemoGridViewActivity extends Activity {
 
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item, parent, false);
+                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item, null, false);
                 viewHolder = new ViewHolder();
                 viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
                 convertView.setTag(viewHolder);
@@ -102,7 +75,7 @@ public class DemoGridViewActivity extends Activity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             //if (position == 0)
-              //  convertView.requestFocus();
+            //  convertView.requestFocus();
 
             viewHolder.text.setText("text" + position);
             return convertView;
@@ -112,6 +85,4 @@ public class DemoGridViewActivity extends Activity {
             public TextView text;
         }
     }
-
-
 }

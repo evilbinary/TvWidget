@@ -3,49 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-
+    android:layout_margin="10dp"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:clipChildren="false"-->
+        <!--android:descendantFocusability="beforeDescendants"-->
+        <!--android:fillViewport="true"-->
+        <!--android:scrollbars="none">-->
 
-        android:clipChildren="false"
-        android:scrollbars="none">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearLayout"-->
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:clipChildren="false"-->
+            <!--android:orientation="vertical">-->
 
+            <GridView
+                android:smoothScrollbar="true"
+                android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
                 android:clipChildren="false"
-                android:orientation="horizontal">
+                android:columnWidth="200dp"
+                android:focusableInTouchMode="true"
+                android:gravity="fill_vertical|clip_vertical"
+                android:horizontalSpacing="3dp"
+                android:numColumns="auto_fit"
 
-                <org.evilbinary.tv.MyGridView
-                    android:id="@+id/gridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:clipChildren="false"
-                    android:columnWidth="200dp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="true"
-                    android:gravity="center_vertical"
-                    android:horizontalSpacing="3dp"
-                    android:numColumns="auto_fit"
+                android:scrollbars="vertical"
+                android:verticalSpacing="6dp" />
 
-                    android:scrollbars="vertical"
-                    android:verticalSpacing="6dp" />
+        <!--</LinearLayout>-->
 
-            </LinearLayout>
-        </FrameLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 
 
 </LinearLayout>
