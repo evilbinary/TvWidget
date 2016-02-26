@@ -69,6 +69,18 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 
     }
 
+    public void detachFrom(ViewGroup viewGroup) {
+        if (viewGroup == mViewGroup) {
+            mViewGroup.getViewTreeObserver().removeOnGlobalFocusChangeListener(this);
+            mViewGroup.getViewTreeObserver().removeOnScrollChangedListener(this);
+            mViewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            mViewGroup.getViewTreeObserver().removeOnTouchModeChangeListener(this);
+            if (getParent() == mViewGroup) {
+                mViewGroup.removeView(this);
+            }
+        }
+    }
+
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
 //        Log.d(TAG, "onGlobalFocusChanged");
@@ -82,7 +94,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
                 if (gridView.getSelectedView() != null) {
                     newFocus = gridView.getSelectedView();
                 }
-                final View tempFocus=newFocus;
+                final View tempFocus = newFocus;
                 gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     private View oldFocus = tempFocus;
                     private View newFocus = null;
