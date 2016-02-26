@@ -104,7 +104,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
                 });
             }
         }
-
+        mEffect.getAnimatorSet().cancel();
         mEffect.start(this, oldFocus, newFocus);
 
 
