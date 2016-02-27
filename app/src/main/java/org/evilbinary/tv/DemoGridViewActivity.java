@@ -33,7 +33,7 @@ public class DemoGridViewActivity extends Activity {
 
         BorderView borderView = new BorderView(this);
 
-        borderView.setBackgroundResource(R.drawable.white_light_10);
+        borderView.setBackgroundResource(R.drawable.border_white_light_10);
         borderView.getEffect().setMargin(12);
         borderView.attachTo(gridView);
 

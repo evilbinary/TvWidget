@@ -22,7 +22,7 @@ public class DemoRecyclerViewActivity extends Activity{
         setContentView(R.layout.demo_recycler_view);
 
         border = new BorderView(this);
-        border.setBackgroundResource(R.drawable.white_light_10);
+        border.setBackgroundResource(R.drawable.border_white_light_10);
         border.getEffect().setMargin(12);
         border.attachTo((ViewGroup) getWindow().getDecorView());
         Bundle bundle=getIntent().getExtras();
