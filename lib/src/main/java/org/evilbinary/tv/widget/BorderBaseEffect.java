@@ -25,6 +25,7 @@ public abstract class BorderBaseEffect {
     protected long mDurationSmall = 200;
     protected long mDurationTraslate = 200;
     protected int mMargin = 0;
+    protected View mView;
 
     private AnimatorSet mAnimatorSet;
     {
@@ -35,7 +36,6 @@ public abstract class BorderBaseEffect {
         BorderBaseEffect borderBaseEffect = new BorderBaseEffect() {
             private View mOldFocus;
             private View mNewFocus;
-            private View mView;
             private ObjectAnimator transAnimatorX;
             private ObjectAnimator transAnimatorY;
             private ObjectAnimator scaleX;
@@ -303,10 +303,22 @@ public abstract class BorderBaseEffect {
 
     }
 
-    public void end(View view) {
+    public void end() {
         mAnimatorSet.end();
-        view.setVisibility(View.GONE);
+        if(mView!=null)
+        mView.setVisibility(View.GONE);
 
+    }
+    public void cancle() {
+        mAnimatorSet.cancel();
+        if(mView!=null)
+        mView.setVisibility(View.GONE);
+    }
+    public void pasue(){
+        mAnimatorSet.pause();
+    }
+    public void resume(){
+        mAnimatorSet.resume();
     }
 
     public AnimatorSet getAnimatorSet() {

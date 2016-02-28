@@ -101,7 +101,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         if (mInTouchMode) return;
         if (mFocusLimit) {
             if (mViewGroup.indexOfChild(newFocus) < 0) {
-                mEffect.end(this);
+                mEffect.end();
                 return;
             }
             if (mViewGroup.indexOfChild(oldFocus) < 0) {
@@ -139,7 +139,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                 });
             }
         } else {
-            mEffect.getAnimatorSet().cancel();
+            mEffect.cancle();
             mEffect.start(this, oldFocus, newFocus);
         }
 
@@ -149,9 +149,12 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
     @Override
     public void onScrollChanged() {
 //        Log.d(TAG, "onScrollChanged");
-        //if (mViewGroup instanceof RecyclerView) {
-        mEffect.notifyChangeAnimation();
-        //}
+
+        if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
+
+        }else{
+            mEffect.notifyChangeAnimation();
+        }
 
     }
 
@@ -168,7 +171,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         if (mViewGroup != null) {
             if (isInTouchMode) {
                 mInTouchMode = true;
-                mEffect.end(this);
+                mEffect.end();
 
             } else {
                 mInTouchMode = false;
