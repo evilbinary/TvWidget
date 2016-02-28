@@ -138,10 +138,9 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                     }
                 });
             }
-        } else {
+        }
             mEffect.cancle();
             mEffect.start(this, oldFocus, newFocus);
-        }
 
 
     }
