@@ -31,7 +31,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     private boolean mEnableBorder = true;
     private ViewGroup mViewGroup;
     private boolean mInTouchMode = false;
-    private boolean mFocusLimit=false;
+    private boolean mFocusLimit = false;
 
     private AdapterView.OnItemSelectedListener mOnItemSelectedListener;
 
@@ -95,16 +95,10 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
 //        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
         if (mInTouchMode) return;
-        if(mFocusLimit){
-            if(mViewGroup.indexOfChild(newFocus)<0 ){
-                mEffect.end(this);
-                return ;
-            }
-            if(mViewGroup.indexOfChild(oldFocus)<0){
-                oldFocus=null;
-            }
+        if (mFocusLimit) {
 
         }
+
 
         if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
             AbsListView gridView = (AbsListView) mViewGroup;
@@ -121,6 +115,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         newFocus = view;
+                        mEffect.getAnimatorSet().cancel();
                         mEffect.start(mBorderView, oldFocus, newFocus);
                         oldFocus = newFocus;
                         if (mOnItemSelectedListener != null)
@@ -134,9 +129,10 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
                     }
                 });
             }
+        }else{
+            mEffect.getAnimatorSet().cancel();
+            mEffect.start(this, oldFocus, newFocus);
         }
-        mEffect.getAnimatorSet().cancel();
-        mEffect.start(this, oldFocus, newFocus);
 
 
     }

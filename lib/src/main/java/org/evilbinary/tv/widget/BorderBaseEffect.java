@@ -27,7 +27,6 @@ public abstract class BorderBaseEffect {
     protected int mMargin = 0;
 
     private AnimatorSet mAnimatorSet;
-
     {
         mAnimatorSet = new AnimatorSet();
     }
