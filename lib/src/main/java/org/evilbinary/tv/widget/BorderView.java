@@ -60,7 +60,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
     }
 
     public void attachTo(ViewGroup viewGroup) {
-        if (viewGroup != null) {
+        if (mViewGroup != viewGroup) {
             mViewGroup = viewGroup;
             ViewTreeObserver viewTreeObserver = mViewGroup.getViewTreeObserver();
             if (viewTreeObserver.isAlive()) {
@@ -124,7 +124,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         newFocus = view;
-                        mEffect.getAnimatorSet().cancel();
+                        mEffect.cancle();
                         mEffect.start(mBorderView, oldFocus, newFocus);
                         oldFocus = newFocus;
                         if (mOnItemSelectedListener != null)

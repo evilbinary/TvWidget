@@ -28,6 +28,7 @@ public abstract class BorderBaseEffect {
     protected View mView;
 
     private AnimatorSet mAnimatorSet;
+
     {
         mAnimatorSet = new AnimatorSet();
     }
@@ -43,7 +44,7 @@ public abstract class BorderBaseEffect {
 
 
             @Override
-            protected void setupAnimation(View view, View oldFocus, final View newFocus) {
+            protected void setupAnimation(View view, View oldFocus, View newFocus) {
                 mOldFocus = oldFocus;
                 mNewFocus = newFocus;
                 mView = view;
@@ -69,9 +70,11 @@ public abstract class BorderBaseEffect {
                                 "x", oldX, newX);
                         transAnimatorY = ObjectAnimator.ofFloat(view,
                                 "y", oldY, newY);
-                        scaleX = ObjectAnimator.ofInt(new WrapView(view),
+
+                        WrapView wrapView=new WrapView(view);
+                        scaleX = ObjectAnimator.ofInt(wrapView,
                                 "width", oldWidth, newWidth);
-                        scaleY = ObjectAnimator.ofInt(new WrapView(view),
+                        scaleY = ObjectAnimator.ofInt(wrapView,
                                 "height", oldHeight, newHeight);
                         floatEvaluator = new FloatEvaluator();
                         getAnimatorSet().playTogether(transAnimatorX, transAnimatorY, scaleX, scaleY);
@@ -305,19 +308,22 @@ public abstract class BorderBaseEffect {
 
     public void end() {
         mAnimatorSet.end();
-        if(mView!=null)
-        mView.setVisibility(View.GONE);
+        if (mView != null)
+            mView.setVisibility(View.GONE);
 
     }
+
     public void cancle() {
         mAnimatorSet.cancel();
-        if(mView!=null)
-        mView.setVisibility(View.GONE);
+        if (mView != null)
+            mView.setVisibility(View.GONE);
     }
-    public void pasue(){
+
+    public void pasue() {
         mAnimatorSet.pause();
     }
-    public void resume(){
+
+    public void resume() {
         mAnimatorSet.resume();
     }
 
@@ -330,10 +336,12 @@ public abstract class BorderBaseEffect {
         mDurationLarge = duration;
         mDurationSmall = duration;
     }
-    public void setTraslateDuration(long duration){
+
+    public void setTraslateDuration(long duration) {
         mDurationTraslate = duration;
     }
-    public void setScaleDuration(long duration){
+
+    public void setScaleDuration(long duration) {
         mDurationLarge = duration;
         mDurationSmall = duration;
     }
