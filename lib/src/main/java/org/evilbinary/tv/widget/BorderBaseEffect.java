@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -51,11 +50,8 @@ public abstract class BorderBaseEffect {
 
                 getLocation();
 
-                if (newFocus != null && newFocus.getRootView() instanceof ViewGroup) {
-                    ViewGroup viewGroup = (ViewGroup) newFocus.getRootView();
-                    if (view.getParent() != viewGroup) {
-                        viewGroup.addView(view);
-                    }
+                if (newFocus != null ) {
+
                     oldWidth += mMargin * 2;
                     oldHeight += mMargin * 2;
                     newWidth += mMargin * 2;

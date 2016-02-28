@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:clipChildren="false"
+    android:focusable="false"
     tools:context="evilbinary.org.tv.MainActivity">
 
 
     <HorizontalScrollView
+        android:focusable="false"
+
         android:clipToPadding="false"
         android:clipChildren="false"
         android:layout_width="match_parent"
@@ -18,6 +21,8 @@
        >
 
         <RelativeLayout
+            android:focusable="false"
+
             android:gravity="center"
             android:layout_gravity="center"
             android:clipToPadding="false"
@@ -34,6 +39,7 @@
                 android:layout_height="446dp"
                 android:background="@drawable/shape"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="RecyclerViewLinerLayout示例"
                 android:textColor="@color/white"
@@ -103,7 +109,7 @@
                 android:background="#d67759"
                 android:focusable="true"
                 android:gravity="center"
-                android:text="Hello World2"
+                android:text="Fragment示例"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:layout_margin="5dp"

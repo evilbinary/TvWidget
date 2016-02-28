@@ -19,6 +19,7 @@
         <activity android:name=".DemoGridViewActivity"/>
         <activity android:name=".DemoListViewActivity"/>
         <activity android:name=".DemoTabActivity"/>
+        <activity android:name=".DemoFragmentActivity"/>
 
     </application>
 

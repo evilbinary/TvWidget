@@ -3,13 +3,9 @@ package org.evilbinary.tv;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import org.evilbinary.tv.widget.BorderView;
 
@@ -27,7 +23,7 @@ public class DemoGridViewActivity extends Activity {
         GridView gridView = (GridView) findViewById(R.id.gridView);
 
 
-        MyAdapter myAdapter = new MyAdapter();
+        MyGridViewAdapter myAdapter = new MyGridViewAdapter(R.layout.item);
         gridView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
 
@@ -71,47 +67,6 @@ public class DemoGridViewActivity extends Activity {
     }
 
 
-    private class MyAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return 200;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item, parent, false);
-                viewHolder = new ViewHolder();
-                viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-            //if (position == 0)
-              //  convertView.requestFocus();
-
-            viewHolder.text.setText("text" + position);
-            return convertView;
-        }
-
-        private class ViewHolder {
-            public TextView text;
-        }
-    }
 
 
 }
