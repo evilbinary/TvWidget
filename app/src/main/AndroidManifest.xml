@@ -18,6 +18,7 @@
         <activity android:name=".DemoRecyclerViewActivity"/>
         <activity android:name=".DemoGridViewActivity"/>
         <activity android:name=".DemoListViewActivity"/>
+        <activity android:name=".DemoTabActivity"/>
 
     </application>
 

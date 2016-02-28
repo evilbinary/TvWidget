@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+
+    android:orientation="vertical">
+
+    <TabWidget
+        android:clipChildren="false"
+        android:id="@+id/tabWidget1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="100dp"
+
+            android:layout_height="60dp"
+            android:background="@color/lightskyblue"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="香蕉"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="@color/lightcoral"
+            android:focusable="true"
+
+            android:gravity="center"
+            android:text="苹果"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="#7cc23b"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="梨子"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="#2790ec"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="橘子"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </TabWidget>
+
+    <android.support.v4.view.ViewPager
+        android:focusable="true"
+        android:layout_gravity="center"
+        android:id="@+id/viewPager1"
+        android:layout_width="800dp"
+        android:layout_height="400dp"
+        android:layout_margin="15dp" />
+</LinearLayout>
