@@ -309,13 +309,19 @@ public abstract class BorderBaseEffect {
 
     }
 
-
     public AnimatorSet getAnimatorSet() {
         return mAnimatorSet;
     }
 
     public void setDuration(long duration) {
         mDurationTraslate = duration;
+        mDurationLarge = duration;
+        mDurationSmall = duration;
+    }
+    public void setTraslateDuration(long duration){
+        mDurationTraslate = duration;
+    }
+    public void setScaleDuration(long duration){
         mDurationLarge = duration;
         mDurationSmall = duration;
     }

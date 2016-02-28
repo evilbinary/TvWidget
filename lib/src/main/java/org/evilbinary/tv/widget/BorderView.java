@@ -11,7 +11,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 
 /**
@@ -19,7 +18,7 @@ import android.widget.RelativeLayout;
  * 邮箱:rootdebug@163.com
  */
 
-public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
+public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
 
     private static String TAG = "BorderView";
 
@@ -94,12 +93,6 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     public void setFocusLimit(boolean focusLimit) {
         this.mFocusLimit = focusLimit;
     }
-
-    @Override
-    public int indexOfChild(View child) {
-        return super.indexOfChild(child);
-    }
-
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {

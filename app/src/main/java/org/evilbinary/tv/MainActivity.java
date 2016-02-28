@@ -18,16 +18,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        border = new BorderView(this);
-        border.setBackgroundResource(R.drawable.border_shadow);
-        border.getEffect().setMargin(78);
 
-        BorderView border2 = new BorderView(this);
-        border2.setBackgroundResource(R.drawable.border_highlight);
+        BorderView border = new BorderView(this);
+        border.setBackgroundResource(R.drawable.border_highlight);
 
         main = (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
-        border2.attachTo(main);
 
         for (int i = 0; i < main.getChildCount(); i++) {
             main.getChildAt(i).setOnClickListener(this);
