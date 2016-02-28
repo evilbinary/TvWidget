@@ -45,7 +45,6 @@ public class MyFragment extends Fragment {
         borderView.setBackgroundResource(R.drawable.border_white_light_10);
         borderView.getEffect().setMargin(12);
         borderView.attachTo(gridView);
-        borderView.setFirstFocus(false);
 
         return mView;
     }
