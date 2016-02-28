@@ -97,8 +97,13 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         if (mInTouchMode) return;
         if(mFocusLimit){
             if(mViewGroup.indexOfChild(newFocus)<0 ){
+                mEffect.end(this);
                 return ;
             }
+            if(mViewGroup.indexOfChild(oldFocus)<0){
+                oldFocus=null;
+            }
+
         }
 
         if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
