@@ -31,6 +31,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     private boolean mEnableBorder = true;
     private ViewGroup mViewGroup;
     private boolean mInTouchMode = false;
+    private boolean mFocusLimit=false;
 
     private AdapterView.OnItemSelectedListener mOnItemSelectedListener;
 
@@ -81,11 +82,24 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         }
     }
 
+    public boolean isFocusLimit() {
+        return mFocusLimit;
+    }
+
+    public void setFocusLimit(boolean focusLimit) {
+        this.mFocusLimit = focusLimit;
+    }
+
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
 //        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
         if (mInTouchMode) return;
+        if(mFocusLimit){
+            if(mViewGroup.indexOfChild(newFocus)<0 ){
+                return ;
+            }
+        }
 
         if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
             AbsListView gridView = (AbsListView) mViewGroup;
