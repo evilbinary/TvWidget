@@ -60,22 +60,27 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
         mEffect = effect;
     }
 
-
     public void attachTo(ViewGroup viewGroup) {
-        mViewGroup = viewGroup;
-        mViewGroup.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
-        mViewGroup.getViewTreeObserver().addOnScrollChangedListener(this);
-        mViewGroup.getViewTreeObserver().addOnGlobalLayoutListener(this);
-        mViewGroup.getViewTreeObserver().addOnTouchModeChangeListener(this);
+        if (viewGroup != null) {
+            mViewGroup = viewGroup;
+            ViewTreeObserver viewTreeObserver = mViewGroup.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalFocusChangeListener(this);
+                viewTreeObserver.addOnScrollChangedListener(this);
+                viewTreeObserver.addOnGlobalLayoutListener(this);
+                viewTreeObserver.addOnTouchModeChangeListener(this);
+            }
+        }
 
     }
 
     public void detachFrom(ViewGroup viewGroup) {
         if (viewGroup == mViewGroup) {
-            mViewGroup.getViewTreeObserver().removeOnGlobalFocusChangeListener(this);
-            mViewGroup.getViewTreeObserver().removeOnScrollChangedListener(this);
-            mViewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            mViewGroup.getViewTreeObserver().removeOnTouchModeChangeListener(this);
+            ViewTreeObserver viewTreeObserver = mViewGroup.getViewTreeObserver();
+            viewTreeObserver.removeOnGlobalFocusChangeListener(this);
+            viewTreeObserver.removeOnScrollChangedListener(this);
+            viewTreeObserver.removeOnGlobalLayoutListener(this);
+            viewTreeObserver.removeOnTouchModeChangeListener(this);
             if (getParent() == mViewGroup) {
                 mViewGroup.removeView(this);
             }
@@ -91,14 +96,25 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
     }
 
     @Override
+    public int indexOfChild(View child) {
+        return super.indexOfChild(child);
+    }
+
+
+    @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
 //        Log.d(TAG, "onGlobalFocusChanged");
         if (!mEnableBorder) return;
         if (mInTouchMode) return;
         if (mFocusLimit) {
-
+            if (mViewGroup.indexOfChild(newFocus) < 0) {
+                mEffect.end(this);
+                return;
+            }
+            if (mViewGroup.indexOfChild(oldFocus) < 0) {
+                oldFocus = null;
+            }
         }
-
 
         if (mViewGroup instanceof GridView || mViewGroup instanceof ListView) {
             AbsListView gridView = (AbsListView) mViewGroup;
@@ -129,7 +145,7 @@ public class BorderView extends RelativeLayout implements ViewTreeObserver.OnGlo
                     }
                 });
             }
-        }else{
+        } else {
             mEffect.getAnimatorSet().cancel();
             mEffect.start(this, oldFocus, newFocus);
         }
