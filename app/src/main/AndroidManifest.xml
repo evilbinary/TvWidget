@@ -20,6 +20,7 @@
         <activity android:name=".DemoListViewActivity"/>
         <activity android:name=".DemoTabActivity"/>
         <activity android:name=".DemoFragmentActivity"/>
+        <activity android:name=".DemoTwoRecyclerViewActivity"/>
 
     </application>
 

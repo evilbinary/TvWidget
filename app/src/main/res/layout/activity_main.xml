@@ -130,7 +130,7 @@
                 android:background="#5d42a3"
                 android:focusable="true"
                 android:gravity="center"
-                android:text="Hello World2"
+                android:text="2个RecylcerView示例"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 />

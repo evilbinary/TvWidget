@@ -29,22 +29,30 @@ public class MyFragment extends Fragment {
         MyGridViewAdapter myAdapter = new MyGridViewAdapter(R.layout.item2);
         gridView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
-        gridView.setSelection(0);
-        gridView.setSelected(true);
+
+         gridView.setSelection(0);
+        gridView.setSelected(false);
+        gridView.setFocusable(false);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("tt", "setOnItemClickListener");
-                MyFragment2 fragment2=new MyFragment2();
-                getFragmentManager().beginTransaction().hide(MyFragment.this).replace(R.id.fragment,fragment2).addToBackStack(null).commit();
+                MyFragment2 fragment2 = new MyFragment2();
+                getFragmentManager().beginTransaction().hide(MyFragment.this).replace(R.id.fragment, fragment2).addToBackStack(null).commit();
             }
         });
+        //gridView.setFocusable(false);
 
         BorderView borderView = new BorderView(getActivity());
         borderView.setBackgroundResource(R.drawable.border_white_light_10);
         borderView.getEffect().setMargin(12);
-        borderView.attachTo(gridView);
+        borderView.attachTo((ViewGroup) mView);
+
+        BorderView borderView2 = new BorderView(getActivity());
+        borderView2.setBackgroundResource(R.drawable.border_white_light_10);
+        borderView2.getEffect().setMargin(12);
+        borderView2.attachTo((ViewGroup) gridView);
 
         return mView;
     }

@@ -16,16 +16,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // 数据集
     private String[] mDataset;
     private Context mContex;
+    private int id;
 
     public MyAdapter(Context context, String[] dataset) {
         super();
         mContex = context;
         mDataset = dataset;
     }
+    public MyAdapter(Context context, String[] dataset,int id) {
+        super();
+        mContex = context;
+        mDataset = dataset;
+        this.id=id;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContex).inflate(R.layout.item, viewGroup, false);
+        int resId=R.layout.item;
+        if(this.id>0){
+            resId=this.id;
+        }
+        View view = LayoutInflater.from(mContex).inflate(resId, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
 
 

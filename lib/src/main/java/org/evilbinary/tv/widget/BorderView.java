@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -16,7 +18,7 @@ import android.widget.AdapterView;
  * 邮箱:rootdebug@163.com
  */
 
-public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
+public class BorderView extends View implements OnGlobalFocusChangeListener, OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
 
     private static String TAG = "BorderView";
 
@@ -68,7 +70,6 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                     viewTreeObserver.addOnScrollChangedListener(this);
                     viewTreeObserver.addOnGlobalLayoutListener(this);
                     viewTreeObserver.addOnTouchModeChangeListener(this);
-
                 }
 
             }
@@ -132,12 +133,23 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                 }
             }
 
+//            if(newFocus instanceof AbsListView&&oldFocus!=null){
+//                Log.d(TAG,"newfocus "+newFocus +" mViewGroup "+mViewGroup);
+//                this.setVisibility(GONE);
+//                oldFocus=newFocus;
+//            }
+
+
             if (mViewGroup instanceof AbsListView) {
+
                 AbsListView gridView = (AbsListView) mViewGroup;
                 if (gridView.getSelectedView() != null && mFirstFocus) {
                     newFocus = gridView.getSelectedView();
                     mEffect.start(this, null, newFocus);
                 }
+//                int index=gridView.(newFocus);
+//                Log.d(TAG,"index="+index);
+//                gridView.setSelection(index);
 
                 if (mOnItemSelectedListener == null) {
                     mOnItemSelectedListener = gridView.getOnItemSelectedListener();
@@ -148,17 +160,22 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
 
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.d(TAG, "onItemSelected");
                             newFocus = view;
-                            mEffect.start(BorderView.this, oldFocus, newFocus);
+                            mEffect.start(mBorderView, oldFocus, newFocus);
                             oldFocus = newFocus;
-                            if (mOnItemSelectedListener != null)
-                                mOnItemSelectedListener.onItemSelected(parent, view, position, id);
+                            if (mOnItemSelectedListener != null) {
+                                //mOnItemSelectedListener.onItemSelected(parent, view, position, id);
+                            }
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-                            if (mOnItemSelectedListener != null)
-                                mOnItemSelectedListener.onNothingSelected(parent);
+                            Log.d(TAG, "onNothingSelected");
+                            mEffect.cancle();
+                            if (mOnItemSelectedListener != null) {
+                                //mOnItemSelectedListener.onNothingSelected(parent);
+                            }
 
                         }
                     });
@@ -173,6 +190,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         }
 
     }
+
 
     public void setFirstFocus(boolean b) {
         this.mFirstFocus = b;
@@ -200,7 +218,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         try {
             //Log.d(TAG, "onGlobalLayout");
             ViewGroup viewGroup = (ViewGroup) mViewGroup.getRootView();
-            if (this.getParent() != viewGroup) {
+            if (this.getParent() != null && this.getParent() != viewGroup) {
                 this.setVisibility(GONE);
                 if (mFirstFocus)
                     viewGroup.requestFocus();

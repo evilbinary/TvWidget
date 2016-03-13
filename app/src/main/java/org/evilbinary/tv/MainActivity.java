@@ -53,6 +53,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }else if (v == main.getChildAt(4)) {
             intent.setClass(this, DemoFragmentActivity.class);
             startActivity(intent);
+        }else if (v == main.getChildAt(5)) {
+            intent.setClass(this, DemoTwoRecyclerViewActivity.class);
+            startActivity(intent);
         }
 
     }
