@@ -50,7 +50,7 @@ public abstract class BorderBaseEffect {
 
                 getLocation();
 
-                if (newFocus != null ) {
+                if (newFocus != null) {
 
                     oldWidth += mMargin * 2;
                     oldHeight += mMargin * 2;
@@ -67,7 +67,7 @@ public abstract class BorderBaseEffect {
                         transAnimatorY = ObjectAnimator.ofFloat(view,
                                 "y", oldY, newY);
 
-                        WrapView wrapView=new WrapView(view);
+                        WrapView wrapView = new WrapView(view);
                         scaleX = ObjectAnimator.ofInt(wrapView,
                                 "width", oldWidth, newWidth);
                         scaleY = ObjectAnimator.ofInt(wrapView,
@@ -147,11 +147,21 @@ public abstract class BorderBaseEffect {
                 if (mOldFocus != null) {
 
                     mOldFocus.getLocationOnScreen(oldLocation);
-                    oldX = oldLocation[0];
-                    oldY = oldLocation[1];
 
-                    oldWidth = mOldFocus.getMeasuredWidth();
-                    oldHeight = mOldFocus.getMeasuredHeight();
+
+                    if (mScalable) {
+                        oldWidth = (int) (mOldFocus.getMeasuredWidth() * mScale);
+                        oldHeight = (int) (mOldFocus.getMeasuredHeight() * mScale);
+
+                        oldX = oldLocation[0] + (mOldFocus.getMeasuredWidth() - oldWidth) / 2;
+                        oldY = oldLocation[1] + (mOldFocus.getMeasuredHeight() - oldHeight) / 2;
+                    } else {
+                        oldX = oldLocation[0];
+                        oldY = oldLocation[1];
+                        oldWidth = mOldFocus.getMeasuredWidth();
+                        oldHeight = mOldFocus.getMeasuredHeight();
+                    }
+
 
                 } else {
                     oldWidth = newWidth;
