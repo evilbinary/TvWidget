@@ -9,6 +9,8 @@ tv常用效果控件，包括焦点、边框处理等。qq群:537960195
 
 <img src="https://github.com/evilbinary/TvWidget/raw/master/data/device-shot2.png" alt="界面" style="max-width:800px;" width="800px" />
 
+<img src="https://github.com/evilbinary/TvWidget/raw/master/data/demo1.gif" alt="界面" style="max-width:800px;" width="420px" />
+
 # 使用
 
 		BorderView border=new BorderView(this);
