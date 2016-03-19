@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lv="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="" />
+    </LinearLayout>
+
+    <org.evilbinary.tv.widget.TvHorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.evilbinary.tv.widget.TvZorderRelativeLayout
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center"
+            android:clipToPadding="false"
+            android:focusable="false"
+
+            android:gravity="center"
+            android:paddingEnd="40dp"
+            android:paddingStart="40dp">
+
+
+            <FrameLayout
+                android:id="@+id/view"
+
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+
+                >
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g2"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    lv:lv_background_color="#EC7263"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="纯♀妹子"
+                    lv:lv_text_size="15sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="在线音乐"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view4"
+                android:layout_width="427dp"
+                android:layout_height="200dp"
+                android:layout_alignTop="@+id/view"
+                android:layout_marginBottom="5dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@+id/view"
+                android:background="@drawable/border_shape"
+                android:focusable="true">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g3"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="新片来袭"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="首发影院，福利来了！"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/view2"
+                android:layout_width="208dp"
+
+                android:layout_height="200dp"
+                android:layout_alignBaseline="@+id/view"
+                android:layout_alignBottom="@+id/view"
+                android:layout_below="@+id/view4"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/view3"
+                android:background="@drawable/border_shape"
+
+                android:focusable="true">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="#EC7263"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="文件浏览"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/view3"
+                android:layout_width="208dp"
+                android:layout_height="200dp"
+
+                android:layout_alignBottom="@+id/view"
+
+                android:layout_below="@+id/view4"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/view"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+
+
+                >
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/demo1"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_background_color="#EC7263"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="妹子"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小工具"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view5"
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/view2"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+                android:padding="0dp">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g5"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="怀旧"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小清新系列"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view6"
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/view5"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+                android:padding="0dp">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g2"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="怀旧"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小清新系列"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view7"
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/view6"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+                android:padding="0dp">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g5"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="怀旧"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小清新系列"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view8"
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/view7"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+                android:padding="0dp">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g5"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="怀旧"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小清新系列"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/view9"
+                android:layout_width="270dp"
+                android:layout_height="406dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/view8"
+                android:background="@drawable/border_shape"
+                android:focusable="true"
+                android:padding="0dp">
+
+
+                <com.joooonho.SelectableRoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/g5"
+                    app:sriv_left_bottom_corner_radius="4dp"
+                    app:sriv_left_top_corner_radius="4dp"
+                    app:sriv_oval="false"
+                    app:sriv_right_bottom_corner_radius="4dp"
+                    app:sriv_right_top_corner_radius="4dp" />
+
+
+                <com.flyco.labelview.LabelView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="怀旧"
+                    lv:lv_text_size="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/border_down_shape"
+                    android:gravity="center|left"
+                    android:padding="15px"
+                    android:text="小清新系列"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+
+            </FrameLayout>
+
+        </org.evilbinary.tv.widget.TvZorderRelativeLayout>
+
+    </org.evilbinary.tv.widget.TvHorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="" />
+    </LinearLayout>
+
+</LinearLayout>

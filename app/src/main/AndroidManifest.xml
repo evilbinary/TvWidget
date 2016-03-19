@@ -21,6 +21,7 @@
         <activity android:name=".DemoTabActivity"/>
         <activity android:name=".DemoFragmentActivity"/>
         <activity android:name=".DemoTwoRecyclerViewActivity"/>
+        <activity android:name=".DemoHomeActivity"/>
 
     </application>
 

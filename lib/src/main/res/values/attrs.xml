@@ -52,5 +52,10 @@
 
     </declare-styleable>
 
+    <declare-styleable name="TvHorizontalScrollView">
+        <attr name="fadingEdge" format="integer"/>
+
+    </declare-styleable>
+
 
 </resources>
