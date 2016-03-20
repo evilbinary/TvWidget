@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:lv="http://schemas.android.com/apk/res-auto"
 
+    xmlns:rv="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -35,20 +36,22 @@
             android:paddingStart="40dp">
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view"
-
                 android:layout_width="270dp"
                 android:layout_height="406dp"
                 android:layout_margin="5dp"
-
                 android:background="@drawable/border_shape"
+                android:clipChildren="true"
+                android:clipToPadding="true"
                 android:focusable="true"
+                
+                app:radius="4dp"
 
                 >
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -75,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_gravity="bottom"
-                    android:background="@drawable/border_down_shape"
+                    android:background="@drawable/border_shape"
                     android:gravity="center|left"
                     android:padding="15px"
                     android:text="在线音乐"
@@ -83,10 +86,10 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view4"
                 android:layout_width="427dp"
                 android:layout_height="200dp"
@@ -94,22 +97,19 @@
                 android:layout_marginBottom="5dp"
 
                 android:layout_marginLeft="5dp"
+
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/view"
                 android:background="@drawable/border_shape"
-                android:focusable="true">
+                android:focusable="true"
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g3"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g3" />
 
 
                 <com.flyco.labelview.LabelView
@@ -135,9 +135,9 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view2"
                 android:layout_width="208dp"
 
@@ -152,21 +152,17 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/view3"
                 android:background="@drawable/border_shape"
+                android:focusable="true"
 
-                android:focusable="true">
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="fitXY"
-                    android:src="#EC7263"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="#EC7263" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -180,9 +176,9 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view3"
                 android:layout_width="208dp"
                 android:layout_height="200dp"
@@ -197,22 +193,18 @@
                 android:layout_toEndOf="@+id/view"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
+                app:radius="4dp"
 
 
                 >
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/demo1"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/demo1" />
 
 
                 <com.flyco.labelview.LabelView
@@ -238,10 +230,10 @@
                     android:textColor="@color/white"
                     android:textSize="24dp" />
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view5"
                 android:layout_width="270dp"
                 android:layout_height="406dp"
@@ -249,20 +241,17 @@
                 android:layout_toEndOf="@+id/view2"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
-                android:padding="0dp">
+                android:padding="0dp"
+
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g5"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g5" />
 
 
                 <com.flyco.labelview.LabelView
@@ -288,10 +277,10 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view6"
                 android:layout_width="270dp"
                 android:layout_height="406dp"
@@ -299,20 +288,17 @@
                 android:layout_toEndOf="@+id/view5"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
-                android:padding="0dp">
+                android:padding="0dp"
+
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g2"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g2" />
 
 
                 <com.flyco.labelview.LabelView
@@ -338,10 +324,10 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view7"
                 android:layout_width="270dp"
                 android:layout_height="406dp"
@@ -349,20 +335,17 @@
                 android:layout_toEndOf="@+id/view6"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
-                android:padding="0dp">
+                android:padding="0dp"
+
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g5"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g5" />
 
 
                 <com.flyco.labelview.LabelView
@@ -388,10 +371,10 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view8"
                 android:layout_width="270dp"
                 android:layout_height="406dp"
@@ -399,20 +382,17 @@
                 android:layout_toEndOf="@+id/view7"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
-                android:padding="0dp">
+                android:padding="0dp"
+
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g5"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g5" />
 
 
                 <com.flyco.labelview.LabelView
@@ -438,10 +418,10 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
 
-            <FrameLayout
+            <org.evilbinary.tv.widget.RoundedFrameLayout
                 android:id="@+id/view9"
                 android:layout_width="270dp"
                 android:layout_height="406dp"
@@ -449,20 +429,17 @@
                 android:layout_toEndOf="@+id/view8"
                 android:background="@drawable/border_shape"
                 android:focusable="true"
-                android:padding="0dp">
+                android:padding="0dp"
+
+                app:radius="4dp">
 
 
-                <com.joooonho.SelectableRoundedImageView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g5"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                    android:src="@drawable/g5" />
 
 
                 <com.flyco.labelview.LabelView
@@ -488,7 +465,7 @@
                     android:textSize="24dp" />
 
 
-            </FrameLayout>
+            </org.evilbinary.tv.widget.RoundedFrameLayout>
 
         </org.evilbinary.tv.widget.TvZorderRelativeLayout>
 
