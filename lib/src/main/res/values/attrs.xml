@@ -54,7 +54,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="RoundedFrameLayout">
+    <declare-styleable name="RoundImpl">
         <attr name="bottomRightRadius" format="dimension" />
         <attr name="bottomLeftRadius" format="dimension" />
         <attr name="radius"  format="dimension" />

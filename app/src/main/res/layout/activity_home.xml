@@ -17,6 +17,7 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:text="" />
+
     </LinearLayout>
 
     <org.evilbinary.tv.widget.TvHorizontalScrollView
@@ -41,11 +42,9 @@
                 android:layout_width="270dp"
                 android:layout_height="406dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/border_shape"
-                android:clipChildren="true"
-                android:clipToPadding="true"
+
                 android:focusable="true"
-                
+
                 app:radius="4dp"
 
                 >

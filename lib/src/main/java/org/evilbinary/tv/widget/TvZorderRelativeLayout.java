@@ -1,7 +1,6 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -23,20 +22,14 @@ public class TvZorderRelativeLayout extends RelativeLayout {
             this.setChildrenDrawingOrderEnabled(true);
         }
 
-        @Override
-        protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-            super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-        }
+
 
 
         public void setCurrentPosition(int pos) {
             this.position = pos;
         }
 
-        @Override
-        protected void setChildrenDrawingOrderEnabled(boolean enabled) {
-            super.setChildrenDrawingOrderEnabled(enabled);
-        }
+
 
         @Override
         protected int getChildDrawingOrder(int childCount, int i) {
