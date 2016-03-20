@@ -23,7 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.+'
-    compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     compile project(':lib')
 }

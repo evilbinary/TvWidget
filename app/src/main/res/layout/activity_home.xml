@@ -55,11 +55,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/g2"
-                    app:sriv_left_bottom_corner_radius="4dp"
-                    app:sriv_left_top_corner_radius="4dp"
-                    app:sriv_oval="false"
-                    app:sriv_right_bottom_corner_radius="4dp"
-                    app:sriv_right_top_corner_radius="4dp" />
+                      />
 
 
                 <com.flyco.labelview.LabelView
