@@ -56,7 +56,7 @@ public class DemoTwoRecyclerViewActivity extends Activity {
         recyclerView.setFocusable(false);
 
 
-        border.attachTo(recyclerView);
+        //border.attachTo(recyclerView);
 
         createData(recyclerView,R.layout.item);
 

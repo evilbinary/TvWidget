@@ -210,7 +210,7 @@ public class BorderEffect implements Effect {
                 }
 
             } else {
-                if (attacheViews.indexOf(newFocus.getParent()) < 0) {
+                if (attacheViews.indexOf(newFocus.getParent()) < 0 ) {
                     mTarget.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "=====>3");
                     scope.isVisible = false;
@@ -230,7 +230,7 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
-            if(newFocus.getScaleX()==mScale){
+            if(newFocus==null||newFocus.getScaleX()==mScale){
                 return;
             }
 

@@ -23,7 +23,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         border.setBackgroundResource(R.drawable.border_highlight);
 
         main = (RelativeLayout) findViewById(R.id.main);
-        border.attach();
+        border.attachTo(main);
 
         for (int i = 0; i < main.getChildCount(); i++) {
             main.getChildAt(i).setOnClickListener(this);

@@ -90,9 +90,6 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         this.borderEffect = borderEffect;
     }
 
-    public void attach() {
-        attachTo(null);
-    }
 
     public void attachTo(ViewGroup viewGroup) {
         try {
