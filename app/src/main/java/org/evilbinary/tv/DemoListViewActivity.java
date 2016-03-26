@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.evilbinary.tv.widget.BorderEffect;
 import org.evilbinary.tv.widget.BorderView;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class DemoListViewActivity extends Activity {
         BorderView borderView = new BorderView(this);
 
         borderView.setBackgroundResource(R.drawable.border_white_light_10);
-        borderView.getEffect().setMargin(12);
+        borderView.getEffect(BorderEffect.class).setMargin(12);
         borderView.attachTo(listView);
 
     }

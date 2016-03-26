@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_gravity="bottom"
-                    android:background="@drawable/border_shape"
+                    android:background="@drawable/border_down_shape"
                     android:gravity="center|left"
                     android:padding="15px"
                     android:text="在线音乐"

@@ -18,11 +18,16 @@ public class DemoHomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         BorderView border = new BorderView(this);
+
         border.setBackgroundResource(R.drawable.border_red);
-        border.getEffect().setScale(1.1f);
+        //border.setBackgroundColor(Color.GREEN);
+
+        //border.getEffect().setScale(1.1f);
 
         ViewGroup list = (ViewGroup) findViewById(R.id.list);
         border.attachTo(list);
 
     }
+
+
 }

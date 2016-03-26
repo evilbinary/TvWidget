@@ -50,13 +50,13 @@ public class DemoTabActivity extends Activity {
         mTabWidget.focusCurrentTab(0);
 
         BorderView borderView = new BorderView(this);
-        borderView.setFocusLimit(true);
+
         borderView.setBackgroundResource(R.drawable.border_highlight);
         borderView.attachTo(mTabWidget);
 
         BorderView borderView2 = new BorderView(this);
-        borderView2.setFocusLimit(true);
-        borderView2.setBackgroundResource(R.drawable.border_white_light_10);
+
+         borderView2.setBackgroundResource(R.drawable.border_white_light_10);
         borderView2.attachTo(mViewPager);
 
     }
