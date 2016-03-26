@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="200dp"
     android:layout_height="200dp"
     android:layout_gravity="center"
     android:layout_margin="12dp"
-    android:background="@color/coral"
     android:focusable="true"
     android:gravity="center">
-
+    <ImageView
+        android:src="@drawable/demo1"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -21,5 +24,4 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-
-</RelativeLayout>
+</FrameLayout>

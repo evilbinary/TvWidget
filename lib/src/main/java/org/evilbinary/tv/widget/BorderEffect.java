@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 
 import org.evilbinary.tv.widget.BorderView.Effect;
 
@@ -39,6 +41,7 @@ public class BorderEffect implements Effect {
         mFocusListener.add(focusMoveListener);
         mFocusListener.add(focusScaleListener);
         mFocusListener.add(focusPlayListener);
+        mFocusListener.add(absListViewFocusListener);
     }
 
     public interface FocusListener {
@@ -86,6 +89,58 @@ public class BorderEffect implements Effect {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
+            }
+        }
+    };
+
+    private List<AdapterView.OnItemSelectedListener> onItemSelectedListenerList = new ArrayList<>();
+
+    public FocusListener absListViewFocusListener = new FocusListener() {
+        @Override
+        public void onFocusChanged(View oldFocus, View newFocus) {
+            for (View attachView : attacheViews) {
+                if (attachView instanceof AbsListView) {
+                    AbsListView absListView = (AbsListView) attachView;
+                    final AdapterView.OnItemSelectedListener onItemSelectedListener = absListView.getOnItemSelectedListener();
+                    if (onItemSelectedListenerList.indexOf(onItemSelectedListener) < 0) {
+                        final View tempFocus = null;
+                        absListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            private View oldFocus = tempFocus;
+                            private View newFocus = null;
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                newFocus = view;
+                                Log.d(TAG, "onItemSelected:" + newFocus + "=" + oldFocus);
+
+                                if (onItemSelectedListener != null) {
+                                    onItemSelectedListener.onItemSelected(parent, view, position, id);
+                                }
+                                List<Animator> animatorList = getMoveAnimator(oldFocus, newFocus);
+                                animatorList.addAll(getScaleAnimator(newFocus,true));
+                                if(oldFocus!=null)
+                                    animatorList.addAll(getScaleAnimator(oldFocus,false));
+
+                                AnimatorSet animatorSet = new AnimatorSet();
+                                animatorSet.setDuration(mDurationTraslate);
+                                animatorSet.playTogether(animatorList);
+                                animatorSet.start();
+                                oldFocus = newFocus;
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                                Log.d(TAG, "onNothingSelected");
+
+                                if (onItemSelectedListener != null) {
+                                    onItemSelectedListener.onNothingSelected(parent);
+                                }
+
+                            }
+                        });
+                        onItemSelectedListenerList.add(onItemSelectedListener);
+                    }
+                }
             }
         }
     };
@@ -192,7 +247,7 @@ public class BorderEffect implements Effect {
             if (oldFocus.getParent() != newFocus.getParent()) {
                 Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
 
-                if ( (attacheViews.indexOf(newFocus.getParent()) < 0) || (attacheViews.indexOf(oldFocus.getParent()) < 0 && attacheViews.indexOf(newFocus.getParent()) > 0)) {
+                if ((attacheViews.indexOf(newFocus.getParent()) < 0) || (attacheViews.indexOf(oldFocus.getParent()) < 0 && attacheViews.indexOf(newFocus.getParent()) > 0)) {
                     mTarget.setVisibility(View.INVISIBLE);
                     AnimatorSet animatorSet = new AnimatorSet();
                     animatorSet.playTogether(getScaleAnimator(oldFocus, false));
@@ -205,12 +260,12 @@ public class BorderEffect implements Effect {
 
                     mTarget.setVisibility(View.VISIBLE);
                 }
-                if (attacheViews.indexOf(oldFocus.getParent() ) < 0) {
+                if (attacheViews.indexOf(oldFocus.getParent()) < 0) {
                     scope.oldFocus = null;
                 }
 
             } else {
-                if (attacheViews.indexOf(newFocus.getParent()) < 0 ) {
+                if (attacheViews.indexOf(newFocus.getParent()) < 0) {
                     mTarget.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "=====>3");
                     scope.isVisible = false;
@@ -230,7 +285,7 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
-            if(newFocus==null||newFocus.getScaleX()==mScale){
+            if (newFocus == null || newFocus.getScaleX() == mScale) {
                 return;
             }
 
@@ -249,7 +304,6 @@ public class BorderEffect implements Effect {
 
             if (isScrolling || newFocus == null || newFocus.getWidth() <= 0 || newFocus.getHeight() <= 0)
                 return;
-
 
 
             mAnimatorList.clear();
@@ -336,8 +390,8 @@ public class BorderEffect implements Effect {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                         //Log.d(TAG, "========>SCROLL_STATE_IDLE");
                         isScrolling = false;
-                        View oldFocus=oldLastFocus;
-                        View newFocus=lastFocus;
+                        View oldFocus = oldLastFocus;
+                        View newFocus = lastFocus;
                         VisibleScope scope = checkVisibleScope(oldFocus, newFocus);
                         if (!scope.isVisible) {
                             return;
