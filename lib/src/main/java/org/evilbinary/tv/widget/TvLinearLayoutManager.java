@@ -56,4 +56,5 @@ public class TvLinearLayoutManager extends LinearLayoutManager {
         return super.onRequestChildFocus(parent, state, child, focused);
     }
 
+
 }

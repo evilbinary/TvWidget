@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import org.evilbinary.tv.widget.BorderEffect;
 import org.evilbinary.tv.widget.BorderView;
@@ -17,7 +16,6 @@ import org.evilbinary.tv.widget.BorderView;
 public class DemoTwoRecyclerViewActivity extends Activity {
 
     private BorderView border;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +24,6 @@ public class DemoTwoRecyclerViewActivity extends Activity {
         border = new BorderView(this);
         border.setBackgroundResource(R.drawable.border_white_light_10);
         border.getEffect(BorderEffect.class).setMargin(12);
-        border.attachTo((ViewGroup) getWindow().getDecorView());
-
 
         testRecyclerViewLinerLayout();
         testRecyclerViewGridLayout();
@@ -40,10 +36,13 @@ public class DemoTwoRecyclerViewActivity extends Activity {
         //test linearlayout
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.firstRecyclerView);
         // 创建一个线性布局管理器
+
         GridLayoutManager layoutManager = new GridLayoutManager(this,1);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setFocusable(false);
+        border.attachTo(recyclerView);
+
         createData(recyclerView, R.layout.item3);
 
     }
@@ -55,6 +54,9 @@ public class DemoTwoRecyclerViewActivity extends Activity {
         gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridlayoutManager);
         recyclerView.setFocusable(false);
+
+
+        border.attachTo(recyclerView);
 
         createData(recyclerView,R.layout.item);
 

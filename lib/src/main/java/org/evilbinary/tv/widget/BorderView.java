@@ -26,11 +26,16 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
 
     public interface Effect {
         public void onFocusChanged(View target, View oldFocus, View newFocus);
-        public void onScrollChanged(View target,View attachView);
-        public void onLayout(View target,View attachView);
-        public void onTouchModeChanged(View target,View attachView,boolean isInTouchMode);
-        public void onAttach(View target,View attachView);
 
+        public void onScrollChanged(View target, View attachView);
+
+        public void onLayout(View target, View attachView);
+
+        public void onTouchModeChanged(View target, View attachView, boolean isInTouchMode);
+
+        public void onAttach(View target, View attachView);
+
+        public void OnDetach(View targe, View view);
     }
 
     public BorderView(Context context) {
@@ -52,7 +57,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
 
     @Override
     public void onScrollChanged() {
-        borderEffect.onScrollChanged(this,mViewGroup);
+        borderEffect.onScrollChanged(this, mViewGroup);
     }
 
     @Override
@@ -95,7 +100,6 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                 if (this.getContext() instanceof Activity) {
                     Activity activity = (Activity) this.getContext();
                     viewGroup = (ViewGroup) activity.getWindow().getDecorView().getRootView();
-
                 }
             }
 
@@ -115,9 +119,8 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                     viewTreeObserver.addOnGlobalLayoutListener(this);
                     viewTreeObserver.addOnTouchModeChangeListener(this);
                 }
-                borderEffect.onAttach(this,mViewGroup);
-
             }
+            borderEffect.onAttach(this, viewGroup);
 
 
         } catch (Exception ex) {
@@ -125,7 +128,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         }
     }
 
-    public void detach(){
+    public void detach() {
         detachFrom(mViewGroup);
     }
 
@@ -140,6 +143,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                 if (getParent() == mViewGroup) {
                     mViewGroup.removeView(this);
                 }
+                borderEffect.OnDetach(this, viewGroup);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

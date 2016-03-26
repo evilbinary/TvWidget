@@ -13,9 +13,10 @@ import org.evilbinary.tv.widget.BorderView;
  * 作者:evilbinary on 2/20/16.
  * 邮箱:rootdebug@163.com
  */
-public class DemoRecyclerViewActivity extends Activity{
+public class DemoRecyclerViewActivity extends Activity {
 
     private BorderView border;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,19 +26,17 @@ public class DemoRecyclerViewActivity extends Activity{
         border.setBackgroundResource(R.drawable.border_white_light_10);
         border.getEffect(BorderEffect.class).setMargin(12);
 
-        Bundle bundle=getIntent().getExtras();
-        if(bundle!=null) {
-            if (bundle.containsKey("linerLayout")) {
-                testRecyclerViewLinerLayout();
-            }else{
-                testRecyclerViewGridLayout();
-            }
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null || bundle.containsKey("linerLayout")) {
+            testRecyclerViewLinerLayout();
+        } else {
+            testRecyclerViewGridLayout();
         }
 
     }
 
 
-    private void testRecyclerViewLinerLayout( ) {
+    private void testRecyclerViewLinerLayout() {
         //test linearlayout
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         // 创建一个线性布局管理器
