@@ -57,7 +57,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
 
     @Override
     public void onGlobalLayout() {
-        borderEffect.onLayout(this,mViewGroup);
+        borderEffect.onLayout(this, mViewGroup);
     }
 
     @Override
@@ -125,5 +125,25 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
         }
     }
 
+    public void detach(){
+        detachFrom(mViewGroup);
+    }
+
+    public void detachFrom(ViewGroup viewGroup) {
+        try {
+            if (viewGroup == mViewGroup) {
+                ViewTreeObserver viewTreeObserver = mViewGroup.getViewTreeObserver();
+                viewTreeObserver.removeOnGlobalFocusChangeListener(this);
+                viewTreeObserver.removeOnScrollChangedListener(this);
+                viewTreeObserver.removeOnGlobalLayoutListener(this);
+                viewTreeObserver.removeOnTouchModeChangeListener(this);
+                if (getParent() == mViewGroup) {
+                    mViewGroup.removeView(this);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }

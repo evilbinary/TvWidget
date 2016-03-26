@@ -36,18 +36,18 @@ public class BorderEffect implements Effect {
     private View mTarget;
 
     public BorderEffect() {
-        mFocusListener.add(focusListener);
+        mFocusListener.add(focusScaleListener);
         mFocusListener.add(focusMoveListener);
+        mFocusListener.add(focusPlayListener);
     }
 
     public interface FocusListener {
         public void onFocusChanged(View oldFocus, View newFocus);
     }
-
     private List<FocusListener> mFocusListener = new ArrayList<FocusListener>(1);
+    private  List<Animator.AnimatorListener> mAnimatorListener=new  ArrayList<Animator.AnimatorListener>(1);
 
-
-    private FocusListener focusListener = new FocusListener() {
+    public FocusListener focusScaleListener = new FocusListener() {
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
             if(mScalable) {
@@ -56,7 +56,7 @@ public class BorderEffect implements Effect {
             }
         }
     };
-    public FocusListener focusScaleListener = new FocusListener() {
+    public FocusListener focusScale2Listener = new FocusListener() {
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
             ObjectAnimator scaleX = new ObjectAnimator().ofFloat(newFocus, "scaleX", 1.0f, mScale);
@@ -72,7 +72,21 @@ public class BorderEffect implements Effect {
             }
         }
     };
-    private FocusListener focusMoveListener = new FocusListener() {
+    public FocusListener focusPlayListener=new FocusListener() {
+        @Override
+        public void onFocusChanged(View oldFocus, View newFocus) {
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setInterpolator(new DecelerateInterpolator(1));
+            animatorSet.setDuration(mDurationTraslate);
+            animatorSet.playTogether(mAnimatorList);
+            for(Animator.AnimatorListener listener: mAnimatorListener){
+                animatorSet.addListener(listener);
+            }
+            mAnimatorSet = animatorSet;
+            animatorSet.start();
+        }
+    };
+    public FocusListener focusMoveListener = new FocusListener() {
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
             if (newFocus == null) return;
@@ -98,7 +112,6 @@ public class BorderEffect implements Effect {
 
                 PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", mTarget.getMeasuredWidth(), newWidth);
                 PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", mTarget.getMeasuredHeight(), newHeight);
-
                 PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofInt("x", oldXY[0], newXY[0]);
                 PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofInt("y", oldXY[1], newXY[1]);
                 final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mTarget, valuesWithdHolder, valuesHeightHolder, valuesYHolder, valuesXHolder);
@@ -125,12 +138,6 @@ public class BorderEffect implements Effect {
                 });
                 mAnimatorList.add(scaleAnimator);
 
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.setInterpolator(new DecelerateInterpolator(1));
-                animatorSet.setDuration(mDurationTraslate);
-                animatorSet.playTogether(mAnimatorList);
-                mAnimatorSet = animatorSet;
-                animatorSet.start();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -145,6 +152,11 @@ public class BorderEffect implements Effect {
     public void addOnFocusListener(FocusListener focusListener) {
         this.mFocusListener.add(focusListener);
     }
+
+    public void addAnimatorListener(Animator.AnimatorListener animatorListener) {
+        this.mAnimatorListener.add(animatorListener);
+    }
+
 
     @Override
     public void onFocusChanged(View target, View oldFocus, View newFocus) {
@@ -171,7 +183,8 @@ public class BorderEffect implements Effect {
         if (attachView instanceof AbsListView) {
 
         } else {
-
+            if (mAnimatorSet != null) ;
+                mAnimatorSet.end();
         }
     }
 
@@ -201,11 +214,6 @@ public class BorderEffect implements Effect {
     public void onAttach(View target, View attachView) {
         target.setVisibility(View.INVISIBLE);
     }
-
-
-
-
-
 
 
     public boolean isScalable() {
