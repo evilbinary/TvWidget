@@ -230,6 +230,10 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
+            if(newFocus.getScaleX()==mScale){
+                return;
+            }
+
             lastFocus = newFocus;
             oldLastFocus = oldFocus;
             mTarget = target;
