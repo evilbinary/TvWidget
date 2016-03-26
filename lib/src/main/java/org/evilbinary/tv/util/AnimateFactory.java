@@ -18,7 +18,7 @@ public class AnimateFactory {
      * @param endScale   控件的终点尺寸倍率
      * @return
      */
-    public static Animation zoomAnimation(float startScale, float endScale, int duration) {
+    public static Animation zoomAnimation(float startScale, float endScale, long duration) {
         ScaleAnimation anim = new ScaleAnimation(startScale, endScale, startScale, endScale,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         anim.setFillAfter(true);
@@ -48,13 +48,13 @@ public class AnimateFactory {
     public static void zoomOutView(View v, float zoomSize) {
         zoomOutView(v,zoomSize,200);
     }
-    public static void zoomInView(View v, float zoomSize,int duration) {
+    public static void zoomInView(View v, float zoomSize,long duration) {
         if (v != null) {
             v.startAnimation(AnimateFactory.zoomAnimation(1.0f, zoomSize,duration));
         }
     }
 
-    public static void zoomOutView(View v, float zoomSize,int duration) {
+    public static void zoomOutView(View v, float zoomSize,long duration) {
         if (v != null) {
             v.startAnimation(AnimateFactory.zoomAnimation(zoomSize, 1.0f, duration));
         }

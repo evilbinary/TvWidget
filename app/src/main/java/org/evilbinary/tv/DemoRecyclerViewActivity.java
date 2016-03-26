@@ -44,6 +44,7 @@ public class DemoRecyclerViewActivity extends Activity{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setFocusable(false);
         border.attachTo(recyclerView);
         createData(recyclerView);
 
@@ -55,6 +56,8 @@ public class DemoRecyclerViewActivity extends Activity{
         GridLayoutManager gridlayoutManager = new GridLayoutManager(this, 4);
         gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridlayoutManager);
+        recyclerView.setFocusable(false);
+
         border.attachTo(recyclerView);
         createData(recyclerView);
 
