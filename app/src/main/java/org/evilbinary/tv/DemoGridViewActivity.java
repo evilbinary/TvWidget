@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 
+import org.evilbinary.tv.widget.BorderEffect;
 import org.evilbinary.tv.widget.BorderView;
 
 /**
@@ -35,6 +36,12 @@ public class DemoGridViewActivity extends Activity {
 
         borderView.attachTo(gridView);
         borderView.getEffect().setMargin(10);
+        borderView.getEffect().addOnFocusChanged(new BorderEffect.FocusListener() {
+            @Override
+            public void onFocusChanged(View oldFocus, View newFocus) {
+                Log.d("tt","onFocusChanged=====>"+oldFocus+" "+newFocus );
+            }
+        });
 
         gridView.setSelected(true);
         gridView.setSelection(0);
