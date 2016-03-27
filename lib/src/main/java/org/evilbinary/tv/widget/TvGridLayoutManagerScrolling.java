@@ -1,6 +1,7 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,17 +10,17 @@ import android.view.View;
  * 作者:evilbinary on 3/27/16.
  * 邮箱:rootdebug@163.com
  */
-public class TVGridLayoutManagerBetterScrolling extends android.support.v7.widget.GridLayoutManager {
+public class TvGridLayoutManagerScrolling extends GridLayoutManager {
 
-    public TVGridLayoutManagerBetterScrolling(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TvGridLayoutManagerScrolling(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public TVGridLayoutManagerBetterScrolling(Context context, int spanCount) {
+    public TvGridLayoutManagerScrolling(Context context, int spanCount) {
         super(context, spanCount);
     }
 
-    public TVGridLayoutManagerBetterScrolling(Context context, int spanCount, int orientation, boolean reverseLayout) {
+    public TvGridLayoutManagerScrolling(Context context, int spanCount, int orientation, boolean reverseLayout) {
         super(context, spanCount, orientation, reverseLayout);
     }
 
@@ -30,7 +31,7 @@ public class TVGridLayoutManagerBetterScrolling extends android.support.v7.widge
         View nextFocus = super.onFocusSearchFailed(focused, focusDirection, recycler, state);
 
         if (nextFocus == null) {
-            //return null;
+            return null;
         }
 
         int fromPos = getPosition(focused);
@@ -54,7 +55,6 @@ public class TVGridLayoutManagerBetterScrolling extends android.support.v7.widge
         if (hitBorder(fromPos, offset)) {
             //return fromPos;
         }
-
         return fromPos + offset;
     }
 

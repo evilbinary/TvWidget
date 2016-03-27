@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import org.evilbinary.tv.widget.BorderView;
-import org.evilbinary.tv.widget.TvGridLayoutManagerBetterScrolling;
+import org.evilbinary.tv.widget.TvGridLayoutManagerScrolling;
 
 /**
  * 作者:evilbinary on 2/20/16.
@@ -48,7 +48,7 @@ public class DemoTwoRecyclerViewActivity extends Activity {
     private void testRecyclerViewGridLayout() {
         //test grid
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.secondRecyclerView);
-        GridLayoutManager gridlayoutManager = new TvGridLayoutManagerBetterScrolling(this, 4);
+        GridLayoutManager gridlayoutManager = new TvGridLayoutManagerScrolling(this, 4);
         gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridlayoutManager);
         recyclerView.setFocusable(false);
