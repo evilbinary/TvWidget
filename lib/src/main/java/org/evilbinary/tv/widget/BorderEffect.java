@@ -187,22 +187,28 @@ public class BorderEffect implements Effect {
 
         int newWidth;
         int newHeight;
+        int oldWidth = mTarget.getWidth();
+        int oldHeight = mTarget.getHeight();
 
         if (mScalable) {
             float scaleWidth = newFocus.getWidth() * mScale;
             float scaleHeight = newFocus.getHeight() * mScale;
             newWidth = (int) (scaleWidth + mMargin * 2 + 0.5);
             newHeight = (int) (scaleHeight + mMargin * 2 + 0.5);
-            newXY[0] = (int) (newXY[0] - (newWidth - newFocus.getWidth()) / 2.0f-0.5);
+            newXY[0] = (int) (newXY[0] - (newWidth - newFocus.getWidth()) / 2.0f);
             newXY[1] = (int) (newXY[1] - (newHeight - newFocus.getHeight()) / 2.0f + 0.5);
 
         } else {
             newWidth = newFocus.getWidth();
             newHeight = newFocus.getHeight();
         }
+        if (oldHeight == 0 && oldWidth == 0) {
+            oldHeight = newHeight;
+            oldWidth = newWidth;
+        }
 
-        PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", mTarget.getWidth(), newWidth);
-        PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", mTarget.getHeight(), newHeight);
+        PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", oldWidth, newWidth);
+        PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", oldHeight, newHeight);
         PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofFloat("translationX", oldXY[0], newXY[0]);
         PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofFloat("translationY", oldXY[1], newXY[1]);
         final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mTarget, valuesWithdHolder, valuesHeightHolder, valuesYHolder, valuesXHolder);
@@ -222,7 +228,7 @@ public class BorderEffect implements Effect {
                 view.getLayoutParams().height = height;
                 if (width > 0) {
                     view.requestLayout();
-                    view.postInvalidate();
+                    view.invalidate();
                 }
             }
         });
@@ -305,7 +311,7 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
-            if (newFocus == null ) {
+            if (newFocus == null&&attacheViews.indexOf(newFocus)>=0) {
                 return;
             }
             lastFocus = newFocus;
@@ -342,7 +348,6 @@ public class BorderEffect implements Effect {
         try {
 //            Log.d(TAG, "onScrollChanged");
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -372,6 +377,7 @@ public class BorderEffect implements Effect {
     @Override
     public void onTouchModeChanged(View target, View attachView, boolean isInTouchMode) {
         try {
+            //Log.d(TAG, "onTouchModeChanged:"+isInTouchMode);
             if (isInTouchMode) {
                 target.setVisibility(View.INVISIBLE);
                 if (lastFocus != null) {
@@ -380,8 +386,6 @@ public class BorderEffect implements Effect {
                     animatorSet.setDuration(0).start();
                 }
 
-            } else {
-                target.setVisibility(View.VISIBLE);
             }
 
 
@@ -406,6 +410,8 @@ public class BorderEffect implements Effect {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
+                    //Log.d(TAG, "========>onScrollStateChanged");
+
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                         //Log.d(TAG, "========>SCROLL_STATE_IDLE");
                         isScrolling = false;
