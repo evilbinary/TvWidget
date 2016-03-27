@@ -220,8 +220,10 @@ public class BorderEffect implements Effect {
                 int w = view.getLayoutParams().width;
                 view.getLayoutParams().width = width;
                 view.getLayoutParams().height = height;
-                if (width > 0)
+                if (width > 0) {
                     view.requestLayout();
+                    view.postInvalidate();
+                }
             }
         });
         animatorList.add(scaleAnimator);
@@ -303,10 +305,9 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
-            if (newFocus == null || newFocus.getScaleX() == mScale) {
+            if (newFocus == null ) {
                 return;
             }
-
             lastFocus = newFocus;
             oldLastFocus = oldFocus;
             mTarget = target;
