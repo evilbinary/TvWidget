@@ -24,8 +24,7 @@ public class DemoGridViewActivity extends Activity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
 
-        gridView.getColumnWidth();
-        gridView.getVerticalSpacing();
+
 
         MyGridViewAdapter myAdapter = new MyGridViewAdapter(R.layout.item_grid);
         gridView.setAdapter(myAdapter);

@@ -93,9 +93,9 @@ public class BorderEffect implements Effect {
         }
     };
 
-    private List<AdapterView.OnItemSelectedListener> onItemSelectedListenerList = new ArrayList<>();
 
     public FocusListener absListViewFocusListener = new FocusListener() {
+        private List<AdapterView.OnItemSelectedListener> onItemSelectedListenerList = new ArrayList<>();
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
             for (View attachView : attacheViews) {
@@ -116,14 +116,16 @@ public class BorderEffect implements Effect {
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 newFocus = view;
 
+                                newFocus.bringToFront();
 
                                 int w = view.getMeasuredWidth();
                                 int h = view.getMeasuredHeight();
-                                int ww = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
-                                int hh = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
-                                view.measure(ww,hh);
+                                int ww = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.AT_MOST);
+                                int hh = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.AT_MOST);
+                                view.measure(ww, hh);
 
-                                Log.d(TAG, "onItemSelected:" + newFocus.getMeasuredWidth()+" w:"+w );
+                                ViewGroup vg= (ViewGroup) newFocus.getParent();
+                                Log.d(TAG, "onItemSelected:" +vg.getWidth()+" "+ newFocus.getMeasuredWidth()+" w:"+w );
 
 
                                 if (onItemSelectedListener != null) {

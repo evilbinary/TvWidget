@@ -25,6 +25,7 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
     private Effect borderEffect;
 
     private X mView;
+    private View mLastView;
 
     public interface Effect {
         public void onFocusChanged(View target, View oldFocus, View newFocus);
@@ -93,9 +94,12 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-
+        if(oldFocus==null){
+            oldFocus=mLastView;
+        }
         if (borderEffect != null)
             borderEffect.onFocusChanged(mView, oldFocus, newFocus);
+        mLastView=newFocus;
 
     }
 
