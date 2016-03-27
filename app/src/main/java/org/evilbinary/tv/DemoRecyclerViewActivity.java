@@ -52,7 +52,7 @@ public class DemoRecyclerViewActivity extends Activity {
         //test grid
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         GridLayoutManager gridlayoutManager = new TvGridLayoutManagerBetterScrolling(this, 4);
-        gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        gridlayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(gridlayoutManager);
         recyclerView.setFocusable(false);
 
