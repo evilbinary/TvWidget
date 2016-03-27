@@ -38,6 +38,7 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
         public void onAttach(View target, View attachView);
 
         public void OnDetach(View targe, View view);
+        public <T> T toEffect(Class<T> t);
     }
 
     public BorderView(Context context) {
@@ -98,11 +99,8 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
 
     }
 
-    public Effect getEffect() {
-        return borderEffect;
-    }
 
-    public <T> T getEffect(Class<T> t) {
+    public <T extends BorderEffect  > T getEffect(){
         return (T) borderEffect;
     }
 

@@ -34,6 +34,7 @@ public class DemoGridViewActivity extends Activity {
 
 
         borderView.attachTo(gridView);
+        borderView.getEffect().setMargin(10);
 
         gridView.setSelected(true);
         gridView.setSelection(0);

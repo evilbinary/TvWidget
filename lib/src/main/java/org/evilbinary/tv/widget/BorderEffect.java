@@ -450,6 +450,11 @@ public class BorderEffect implements Effect {
         attacheViews.remove(view);
     }
 
+    @Override
+    public <T>T  toEffect(Class<T> t) {
+        return (T) this;
+    }
+
     private int scrollingX = 0;
 
 
