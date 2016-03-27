@@ -67,7 +67,7 @@ public class DemoListViewActivity extends Activity {
 
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item, null, false);
+                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item3, null, false);
                 viewHolder = new ViewHolder();
                 viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
                 convertView.setTag(viewHolder);
