@@ -117,8 +117,6 @@ public class BorderEffect implements Effect {
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 newFocus = view;
 
-                                newFocus.bringToFront();
-
                                 int w = view.getMeasuredWidth();
                                 int h = view.getMeasuredHeight();
                                 int ww = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.AT_MOST);
@@ -269,7 +267,7 @@ public class BorderEffect implements Effect {
         scope.oldFocus = oldFocus;
         scope.newFocus = newFocus;
         scope.isVisible = true;
-        if (oldFocus != null) {
+        if (oldFocus != null&&newFocus!=null) {
             if (oldFocus.getParent() != newFocus.getParent()) {
                 Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
 
