@@ -85,7 +85,7 @@ public class BorderEffect implements Effect {
             if (newFocus == null) return;
             try {
 
-                mAnimatorList.addAll(getMoveAnimator(oldFocus, newFocus));
+                mAnimatorList.addAll(getMoveAnimator(newFocus,1.0f));
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -100,10 +100,14 @@ public class BorderEffect implements Effect {
         public void onFocusChanged(View oldFocus, View newFocus) {
             for (View attachView : attacheViews) {
                 if (attachView instanceof AbsListView) {
-                    AbsListView absListView = (AbsListView) attachView;
+                    final AbsListView absListView = (AbsListView) attachView;
                     final AdapterView.OnItemSelectedListener onItemSelectedListener = absListView.getOnItemSelectedListener();
                     if (onItemSelectedListenerList.indexOf(onItemSelectedListener) < 0) {
-                        final View tempFocus = null;
+                        View temp=null;
+                        if(absListView.getChildCount()>0){
+                            temp=absListView.getChildAt(0);
+                        }
+                        final View tempFocus =temp;
                         absListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             private View oldFocus = tempFocus;
                             private View newFocus = null;
@@ -111,15 +115,25 @@ public class BorderEffect implements Effect {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 newFocus = view;
-                                Log.d(TAG, "onItemSelected:" + newFocus + "=" + oldFocus);
+
+
+                                int w = view.getMeasuredWidth();
+                                int h = view.getMeasuredHeight();
+                                int ww = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
+                                int hh = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
+                                view.measure(ww,hh);
+
+                                Log.d(TAG, "onItemSelected:" + newFocus.getMeasuredWidth()+" w:"+w );
+
 
                                 if (onItemSelectedListener != null) {
                                     onItemSelectedListener.onItemSelected(parent, view, position, id);
                                 }
-                                List<Animator> animatorList = getMoveAnimator(oldFocus, newFocus);
+                                List<Animator> animatorList=new ArrayList<Animator>(3);
                                 animatorList.addAll(getScaleAnimator(newFocus,true));
                                 if(oldFocus!=null)
                                     animatorList.addAll(getScaleAnimator(oldFocus,false));
+                                animatorList.addAll(getMoveAnimator(newFocus,2.0f));
 
                                 AnimatorSet animatorSet = new AnimatorSet();
                                 animatorSet.setDuration(mDurationTraslate);
@@ -160,10 +174,11 @@ public class BorderEffect implements Effect {
         return animatorList;
     }
 
-    private List<Animator> getMoveAnimator(View oldFocus, View newFocus) {
+    private List<Animator> getMoveAnimator(View newFocus,float factor) {
         List<Animator> animatorList = new ArrayList<Animator>();
         int newXY[];
         int oldXY[];
+
         newXY = getGlobalLocation(newFocus);
         oldXY = getGlobalLocation(mTarget);
 
@@ -171,10 +186,13 @@ public class BorderEffect implements Effect {
         int newHeight;
 
         if (mScalable) {
-            newWidth = (int) (newFocus.getWidth() * mScale) + mMargin * 2;
-            newHeight = (int) (newFocus.getHeight() * mScale + mMargin * 2);
-            newXY[0] = newXY[0] - (newWidth - newFocus.getWidth()) / 2;
-            newXY[1] = newXY[1] - (newHeight - newFocus.getHeight()) / 2;
+            float scaleWidth=newFocus.getWidth() * mScale;
+            float scaleHeight=newFocus.getHeight() * mScale;
+            newWidth = (int) (scaleWidth+ mMargin * 2+0.5);
+            newHeight = (int) (scaleHeight + mMargin * 2+0.5);
+            newXY[0] = (int) (newXY[0] - (newWidth-newFocus.getWidth() ) / 2.0 ) ;
+            newXY[1] = (int)(newXY[1] - (newHeight-newFocus.getHeight()) / 2.0 );
+
         } else {
             newWidth = newFocus.getWidth();
             newHeight = newFocus.getHeight();
@@ -182,8 +200,8 @@ public class BorderEffect implements Effect {
 
         PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", mTarget.getWidth(), newWidth);
         PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", mTarget.getHeight(), newHeight);
-        PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofInt("x", oldXY[0], newXY[0]);
-        PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofInt("y", oldXY[1], newXY[1]);
+        PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofFloat("translationX",oldXY[0],newXY[0]);
+        PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofFloat("translationY",oldXY[1],newXY[1]);
         final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mTarget, valuesWithdHolder, valuesHeightHolder, valuesYHolder, valuesXHolder);
 
         scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -191,18 +209,19 @@ public class BorderEffect implements Effect {
             public synchronized void onAnimationUpdate(ValueAnimator animation) {
                 int width = (int) animation.getAnimatedValue("width");
                 int height = (int) animation.getAnimatedValue("height");
-                int x = (int) animation.getAnimatedValue("x");
-                int y = (int) animation.getAnimatedValue("y");
-
+                float translationX = (float) animation.getAnimatedValue("translationX");
+                float translationY = (float) animation.getAnimatedValue("translationY");
+                //Log.d(TAG,"width:"+width+" height:"+height+" translationX:"+translationX+" translationY:"+translationY);
                 View view = (View) scaleAnimator.getTarget();
-                view.setX(x);
-                view.setY(y);
+                assert view != null;
+//                view.setTranslationX(translationX);
+//                view.setTranslationY(translationY);
                 int w = view.getLayoutParams().width;
                 view.getLayoutParams().width = width;
                 view.getLayoutParams().height = height;
                 if (w > 0) {
                     view.requestLayout();
-                    view.invalidate();
+                    //view.invalidate();
                 }
             }
         });
@@ -403,7 +422,7 @@ public class BorderEffect implements Effect {
                         List<Animator> list = new ArrayList<>();
 //                            list.addAll(getScaleAnimator(oldLastFocus, false));
                         list.addAll(getScaleAnimator(newFocus, true));
-                        list.addAll(getMoveAnimator(oldFocus, newFocus));
+                        list.addAll(getMoveAnimator(newFocus,1.0f));
                         animatorSet.setDuration(mDurationTraslate);
                         animatorSet.playTogether(list);
                         animatorSet.start();

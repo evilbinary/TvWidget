@@ -8,6 +8,7 @@ package org.evilbinary.tv.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -17,12 +18,13 @@ import android.view.ViewTreeObserver;
  * 作者:evilbinary on 3/21/16.
  * 邮箱:rootdebug@163.com
  */
-public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
+public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnScrollChangedListener, ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListener {
     private String TAG = BorderView.class.getSimpleName();
 
     private ViewGroup mViewGroup;
     private Effect borderEffect;
 
+    private X mView;
 
     public interface Effect {
         public void onFocusChanged(View target, View oldFocus, View newFocus);
@@ -47,34 +49,52 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
     }
 
     public BorderView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         borderEffect = new BorderEffect();
+        mView = (X) new View(context, attrs, defStyleAttr);
+    }
+
+    public BorderView(X view) {
+        this.mView = view;
+        borderEffect = new BorderEffect();
+    }
+    public BorderView(Context context,int resId) {
+        this((X) LayoutInflater.from(context).inflate(resId,null,false));
+    }
+
+    public X getView() {
+        return mView;
+    }
+
+
+    public void setBackgroundResource(int resId) {
+        if(mView!=null)
+            mView.setBackgroundResource(resId);
     }
 
     @Override
     public void onScrollChanged() {
-        borderEffect.onScrollChanged(this, mViewGroup);
+        borderEffect.onScrollChanged(mView, mViewGroup);
     }
 
     @Override
     public void onGlobalLayout() {
-        borderEffect.onLayout(this, mViewGroup);
+        borderEffect.onLayout(mView, mViewGroup);
     }
 
     @Override
     public void onTouchModeChanged(boolean isInTouchMode) {
-        borderEffect.onTouchModeChanged(this, mViewGroup, isInTouchMode);
+        borderEffect.onTouchModeChanged(mView, mViewGroup, isInTouchMode);
     }
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
 
         if (borderEffect != null)
-            borderEffect.onFocusChanged(this, oldFocus, newFocus);
+            borderEffect.onFocusChanged(mView, oldFocus, newFocus);
 
     }
 
@@ -94,8 +114,8 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
     public void attachTo(ViewGroup viewGroup) {
         try {
             if (viewGroup == null) {
-                if (this.getContext() instanceof Activity) {
-                    Activity activity = (Activity) this.getContext();
+                if (mView.getContext() instanceof Activity) {
+                    Activity activity = (Activity) mView.getContext();
                     viewGroup = (ViewGroup) activity.getWindow().getDecorView().getRootView();
                 }
             }
@@ -103,12 +123,12 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
             if (mViewGroup != viewGroup) {
                 mViewGroup = viewGroup;
 
-                if (this.getParent() != null && (this.getParent() instanceof ViewGroup)) {
-                    ViewGroup vg = (ViewGroup) this.getParent();
-                    vg.removeView(this);
+                if (mView.getParent() != null && (mView.getParent() instanceof ViewGroup)) {
+                    ViewGroup vg = (ViewGroup) mView.getParent();
+                    vg.removeView(mView);
                 }
                 ViewGroup vg = (ViewGroup) viewGroup.getRootView();
-                vg.addView(this);
+                vg.addView(mView);
                 ViewTreeObserver viewTreeObserver = mViewGroup.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
                     viewTreeObserver.addOnGlobalFocusChangeListener(this);
@@ -117,7 +137,7 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                     viewTreeObserver.addOnTouchModeChangeListener(this);
                 }
             }
-            borderEffect.onAttach(this, viewGroup);
+            borderEffect.onAttach(mView, viewGroup);
 
 
         } catch (Exception ex) {
@@ -137,10 +157,10 @@ public class BorderView extends View implements ViewTreeObserver.OnGlobalFocusCh
                 viewTreeObserver.removeOnScrollChangedListener(this);
                 viewTreeObserver.removeOnGlobalLayoutListener(this);
                 viewTreeObserver.removeOnTouchModeChangeListener(this);
-                if (getParent() == mViewGroup) {
-                    mViewGroup.removeView(this);
+                if (mView.getParent() == mViewGroup) {
+                    mViewGroup.removeView(mView);
                 }
-                borderEffect.OnDetach(this, viewGroup);
+                borderEffect.OnDetach(mView, viewGroup);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

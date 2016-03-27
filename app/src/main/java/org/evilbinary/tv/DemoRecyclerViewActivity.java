@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import org.evilbinary.tv.widget.BorderEffect;
 import org.evilbinary.tv.widget.BorderView;
 
 /**
@@ -23,8 +22,7 @@ public class DemoRecyclerViewActivity extends Activity {
         setContentView(R.layout.demo_recycler_view);
 
         border = new BorderView(this);
-        border.setBackgroundResource(R.drawable.border_white_light_10);
-        border.getEffect(BorderEffect.class).setMargin(12);
+        border.setBackgroundResource(R.drawable.border_highlight);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle == null || bundle.containsKey("linerLayout")) {

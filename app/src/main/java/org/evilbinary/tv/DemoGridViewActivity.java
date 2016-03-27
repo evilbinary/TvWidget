@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 import org.evilbinary.tv.widget.BorderView;
 
@@ -22,14 +23,15 @@ public class DemoGridViewActivity extends Activity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
 
+        gridView.getColumnWidth();
+        gridView.getVerticalSpacing();
 
-        MyGridViewAdapter myAdapter = new MyGridViewAdapter(R.layout.item);
+        MyGridViewAdapter myAdapter = new MyGridViewAdapter(R.layout.item_grid);
         gridView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
 
-        BorderView borderView = new BorderView(this);
+        BorderView borderView = new BorderView<RelativeLayout>(this,R.layout.custom_item);
 
-        borderView.setBackgroundResource(R.drawable.border_white_light_10);
 
         borderView.attachTo(gridView);
 
@@ -42,13 +44,6 @@ public class DemoGridViewActivity extends Activity {
                 Log.d("tt", "onFocusChange");
             }
         });
-//        gridView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//
-//                return false;
-//            }
-//        });
 
         gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

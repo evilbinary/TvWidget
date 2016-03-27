@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import org.evilbinary.tv.widget.BorderEffect;
 import org.evilbinary.tv.widget.BorderView;
 
 /**
@@ -47,12 +46,12 @@ public class MyFragment extends Fragment {
 
         BorderView borderView = new BorderView(getActivity());
         borderView.setBackgroundResource(R.drawable.border_white_light_10);
-        borderView.getEffect(BorderEffect.class).setMargin(12);
+        //borderView.getEffect(BorderEffect.class).setMargin(12);
         borderView.attachTo((ViewGroup) mView);
 
         BorderView borderView2 = new BorderView(getActivity());
         borderView2.setBackgroundResource(R.drawable.border_white_light_10);
-        borderView2.getEffect(BorderEffect.class).setMargin(12);
+        //borderView2.getEffect(BorderEffect.class).setMargin(12);
         borderView2.attachTo((ViewGroup) gridView);
 
         return mView;
