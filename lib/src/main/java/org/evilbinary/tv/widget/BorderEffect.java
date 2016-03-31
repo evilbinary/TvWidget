@@ -180,57 +180,63 @@ public class BorderEffect implements Effect {
         int newXY[];
         int oldXY[];
 
-        newXY = getGlobalLocation(newFocus);
-        oldXY = getGlobalLocation(mTarget);
+        try {
 
-        int newWidth;
-        int newHeight;
-        int oldWidth = mTarget.getWidth();
-        int oldHeight = mTarget.getHeight();
+            newXY = getGlobalLocation(newFocus);
+            oldXY = getGlobalLocation(mTarget);
 
-        if (mScalable) {
-            float scaleWidth = newFocus.getWidth() * mScale;
-            float scaleHeight = newFocus.getHeight() * mScale;
-            newWidth = (int) (scaleWidth + mMargin * 2 + 0.5);
-            newHeight = (int) (scaleHeight + mMargin * 2 + 0.5);
-            newXY[0] = (int) (newXY[0] - (newWidth - newFocus.getWidth()) / 2.0f);
-            newXY[1] = (int) (newXY[1] - (newHeight - newFocus.getHeight()) / 2.0f + 0.5);
+            int newWidth;
+            int newHeight;
+            int oldWidth = mTarget.getWidth();
+            int oldHeight = mTarget.getHeight();
 
-        } else {
-            newWidth = newFocus.getWidth();
-            newHeight = newFocus.getHeight();
-        }
-        if (oldHeight == 0 && oldWidth == 0) {
-            oldHeight = newHeight;
-            oldWidth = newWidth;
-        }
+            if (mScalable) {
+                float scaleWidth = newFocus.getWidth() * mScale;
+                float scaleHeight = newFocus.getHeight() * mScale;
+                newWidth = (int) (scaleWidth + mMargin * 2 + 0.5);
+                newHeight = (int) (scaleHeight + mMargin * 2 + 0.5);
+                newXY[0] = (int) (newXY[0] - (newWidth - newFocus.getWidth()) / 2.0f);
+                newXY[1] = (int) (newXY[1] - (newHeight - newFocus.getHeight()) / 2.0f + 0.5);
 
-        PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", oldWidth, newWidth);
-        PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", oldHeight, newHeight);
-        PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofFloat("translationX", oldXY[0], newXY[0]);
-        PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofFloat("translationY", oldXY[1], newXY[1]);
-        final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mTarget, valuesWithdHolder, valuesHeightHolder, valuesYHolder, valuesXHolder);
-
-        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public synchronized void onAnimationUpdate(ValueAnimator animation) {
-                int width = (int) animation.getAnimatedValue("width");
-                int height = (int) animation.getAnimatedValue("height");
-                float translationX = (float) animation.getAnimatedValue("translationX");
-                float translationY = (float) animation.getAnimatedValue("translationY");
-                //Log.d(TAG,"width:"+width+" height:"+height+" translationX:"+translationX+" translationY:"+translationY);
-                View view = (View) scaleAnimator.getTarget();
-                assert view != null;
-                int w = view.getLayoutParams().width;
-                view.getLayoutParams().width = width;
-                view.getLayoutParams().height = height;
-                if (width > 0) {
-                    view.requestLayout();
-                    view.invalidate();
-                }
+            } else {
+                newWidth = newFocus.getWidth();
+                newHeight = newFocus.getHeight();
             }
-        });
-        animatorList.add(scaleAnimator);
+            if (oldHeight == 0 && oldWidth == 0) {
+                oldHeight = newHeight;
+                oldWidth = newWidth;
+            }
+
+            PropertyValuesHolder valuesWithdHolder = PropertyValuesHolder.ofInt("width", oldWidth, newWidth);
+            PropertyValuesHolder valuesHeightHolder = PropertyValuesHolder.ofInt("height", oldHeight, newHeight);
+            PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofFloat("translationX", oldXY[0], newXY[0]);
+            PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofFloat("translationY", oldXY[1], newXY[1]);
+            final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mTarget, valuesWithdHolder, valuesHeightHolder, valuesYHolder, valuesXHolder);
+
+            scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public synchronized void onAnimationUpdate(ValueAnimator animation) {
+                    int width = (int) animation.getAnimatedValue("width");
+                    int height = (int) animation.getAnimatedValue("height");
+                    float translationX = (float) animation.getAnimatedValue("translationX");
+                    float translationY = (float) animation.getAnimatedValue("translationY");
+                    //Log.d(TAG,"width:"+width+" height:"+height+" translationX:"+translationX+" translationY:"+translationY);
+                    View view = (View) scaleAnimator.getTarget();
+                    assert view != null;
+                    int w = view.getLayoutParams().width;
+                    view.getLayoutParams().width = width;
+                    view.getLayoutParams().height = height;
+                    if (width > 0) {
+                        view.requestLayout();
+                        view.postInvalidate();
+
+                    }
+                }
+            });
+            animatorList.add(scaleAnimator);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return animatorList;
     }
 
@@ -264,43 +270,47 @@ public class BorderEffect implements Effect {
 
     private VisibleScope checkVisibleScope(View oldFocus, View newFocus) {
         VisibleScope scope = new VisibleScope();
-        scope.oldFocus = oldFocus;
-        scope.newFocus = newFocus;
-        scope.isVisible = true;
-        if (oldFocus != null&&newFocus!=null) {
-            if (oldFocus.getParent() != newFocus.getParent()) {
-                Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
+        try {
+            scope.oldFocus = oldFocus;
+            scope.newFocus = newFocus;
+            scope.isVisible = true;
+            if (oldFocus != null && newFocus != null) {
+                if (oldFocus.getParent() != newFocus.getParent()) {
+                    Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
 
-                if ((attacheViews.indexOf(newFocus.getParent()) < 0) || (attacheViews.indexOf(oldFocus.getParent()) < 0 && attacheViews.indexOf(newFocus.getParent()) > 0)) {
-                    mTarget.setVisibility(View.INVISIBLE);
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(getScaleAnimator(oldFocus, false));
-                    animatorSet.setDuration(0).start();
-                    Log.d(TAG, "=====>1");
-                    scope.isVisible = false;
-                    return scope;
+                    if ((attacheViews.indexOf(newFocus.getParent()) < 0) || (attacheViews.indexOf(oldFocus.getParent()) < 0 && attacheViews.indexOf(newFocus.getParent()) > 0)) {
+                        mTarget.setVisibility(View.INVISIBLE);
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(getScaleAnimator(oldFocus, false));
+                        animatorSet.setDuration(0).start();
+                        Log.d(TAG, "=====>1");
+                        scope.isVisible = false;
+                        return scope;
+                    } else {
+                        Log.d(TAG, "=====>2");
+
+                        mTarget.setVisibility(View.VISIBLE);
+                    }
+                    if (attacheViews.indexOf(oldFocus.getParent()) < 0) {
+                        scope.oldFocus = null;
+                    }
+
                 } else {
-                    Log.d(TAG, "=====>2");
+                    if (attacheViews.indexOf(newFocus.getParent()) < 0) {
+                        mTarget.setVisibility(View.INVISIBLE);
+                        Log.d(TAG, "=====>3");
+                        scope.isVisible = false;
+                        return scope;
+                    }
+                    Log.d(TAG, "=====>4");
 
-                    mTarget.setVisibility(View.VISIBLE);
                 }
-                if (attacheViews.indexOf(oldFocus.getParent()) < 0) {
-                    scope.oldFocus = null;
-                }
-
-            } else {
-                if (attacheViews.indexOf(newFocus.getParent()) < 0) {
-                    mTarget.setVisibility(View.INVISIBLE);
-                    Log.d(TAG, "=====>3");
-                    scope.isVisible = false;
-                    return scope;
-                }
-                Log.d(TAG, "=====>4");
-
+                Log.d(TAG, "=====>5");
             }
-            Log.d(TAG, "=====>5");
+            mTarget.setVisibility(View.VISIBLE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        mTarget.setVisibility(View.VISIBLE);
         return scope;
     }
 
@@ -309,7 +319,7 @@ public class BorderEffect implements Effect {
         try {
             Log.d(TAG, "onFocusChanged");
 
-            if (newFocus == null&&attacheViews.indexOf(newFocus)>=0) {
+            if (newFocus == null && attacheViews.indexOf(newFocus) >= 0) {
                 return;
             }
             lastFocus = newFocus;
@@ -399,53 +409,58 @@ public class BorderEffect implements Effect {
 
     @Override
     public void onAttach(View target, View attachView) {
+        try {
+            target.setVisibility(View.GONE);
+            if (attachView instanceof RecyclerView) {
+                RecyclerView recyclerView = (RecyclerView) attachView;
+                RecyclerView.OnScrollListener recyclerViewOnScrollListener = null;
+                recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        //Log.d(TAG, "========>onScrollStateChanged");
 
-        target.setVisibility(View.GONE);
-        if (attachView instanceof RecyclerView) {
-            RecyclerView recyclerView = (RecyclerView) attachView;
-            RecyclerView.OnScrollListener recyclerViewOnScrollListener = null;
-            recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    //Log.d(TAG, "========>onScrollStateChanged");
-
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        //Log.d(TAG, "========>SCROLL_STATE_IDLE");
-                        isScrolling = false;
-                        View oldFocus = oldLastFocus;
-                        View newFocus = lastFocus;
-                        VisibleScope scope = checkVisibleScope(oldFocus, newFocus);
-                        if (!scope.isVisible) {
-                            return;
-                        } else {
-                            oldFocus = scope.oldFocus;
-                            newFocus = scope.newFocus;
-                        }
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        List<Animator> list = new ArrayList<>();
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                            //Log.d(TAG, "========>SCROLL_STATE_IDLE");
+                            isScrolling = false;
+                            View oldFocus = oldLastFocus;
+                            View newFocus = lastFocus;
+                            VisibleScope scope = checkVisibleScope(oldFocus, newFocus);
+                            if (!scope.isVisible) {
+                                return;
+                            } else {
+                                oldFocus = scope.oldFocus;
+                                newFocus = scope.newFocus;
+                            }
+                            AnimatorSet animatorSet = new AnimatorSet();
+                            List<Animator> list = new ArrayList<>();
 //                            list.addAll(getScaleAnimator(oldLastFocus, false));
-                        list.addAll(getScaleAnimator(newFocus, true));
-                        list.addAll(getMoveAnimator(newFocus, 1.0f));
-                        animatorSet.setDuration(mDurationTraslate);
-                        animatorSet.playTogether(list);
-                        animatorSet.start();
+                            list.addAll(getScaleAnimator(newFocus, true));
+                            list.addAll(getMoveAnimator(newFocus, 1.0f));
+                            animatorSet.setDuration(mDurationTraslate);
+                            animatorSet.playTogether(list);
+                            animatorSet.start();
 
 
-                    } else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                        //Log.d(TAG, "========>SCROLL_STATE_SETTLING=" + mAnimatorSet.isRunning());
-                        isScrolling = true;
-                        List<Animator> list = getScaleAnimator(lastFocus, false);
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        animatorSet.setDuration(150);
-                        animatorSet.playTogether(list);
-                        animatorSet.start();
+                        } else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                            //Log.d(TAG, "========>SCROLL_STATE_SETTLING=" + mAnimatorSet.isRunning());
+                            isScrolling = true;
+                            if (lastFocus != null) {
+                                List<Animator> list = getScaleAnimator(lastFocus, false);
+                                AnimatorSet animatorSet = new AnimatorSet();
+                                animatorSet.setDuration(150);
+                                animatorSet.playTogether(list);
+                                animatorSet.start();
+                            }
+                        }
                     }
-                }
-            };
-            recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+                };
+                recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+            }
+            attacheViews.add(attachView);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        attacheViews.add(attachView);
 
     }
 

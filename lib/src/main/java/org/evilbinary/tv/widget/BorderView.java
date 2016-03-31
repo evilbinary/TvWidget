@@ -97,14 +97,18 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
 
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            if (oldFocus == null&&mLastView!=null) {
-                oldFocus = mLastView;
+        try {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                if (oldFocus == null && mLastView != null) {
+                    oldFocus = mLastView;
+                }
             }
+            if (borderEffect != null)
+                borderEffect.onFocusChanged(mView, oldFocus, newFocus);
+            mLastView = newFocus;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        if (borderEffect != null)
-            borderEffect.onFocusChanged(mView, oldFocus, newFocus);
-        mLastView = newFocus;
 
     }
 
@@ -136,7 +140,7 @@ public class BorderView<X extends View> implements ViewTreeObserver.OnGlobalFocu
                 ViewGroup vg = (ViewGroup) viewGroup.getRootView();
                 vg.addView(mView);
                 ViewTreeObserver viewTreeObserver = viewGroup.getViewTreeObserver();
-                if (viewTreeObserver.isAlive()&&mViewGroup==null) {
+                if (viewTreeObserver.isAlive() && mViewGroup == null) {
                     viewTreeObserver.addOnGlobalFocusChangeListener(this);
                     viewTreeObserver.addOnScrollChangedListener(this);
                     viewTreeObserver.addOnGlobalLayoutListener(this);
