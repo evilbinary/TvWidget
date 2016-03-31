@@ -317,11 +317,14 @@ public class BorderEffect implements Effect {
     @Override
     public void onFocusChanged(View target, View oldFocus, View newFocus) {
         try {
-            Log.d(TAG, "onFocusChanged");
+            //Log.d(TAG, "onFocusChanged:"+oldFocus+"="+newFocus);
 
             if (newFocus == null && attacheViews.indexOf(newFocus) >= 0) {
                 return;
             }
+            if(oldFocus==newFocus)
+                return;
+
             lastFocus = newFocus;
             oldLastFocus = oldFocus;
             mTarget = target;
@@ -337,7 +340,6 @@ public class BorderEffect implements Effect {
 
             if (isScrolling || newFocus == null || newFocus.getWidth() <= 0 || newFocus.getHeight() <= 0)
                 return;
-
 
             mAnimatorList.clear();
 

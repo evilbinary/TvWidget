@@ -1,7 +1,6 @@
 package org.evilbinary.tv.widget;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,14 +30,12 @@ public class TvZorderRelativeLayout extends RelativeLayout {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             View focused = findFocus();
             int pos = indexOfChild(focused);
             if (pos >= 0 && pos < getChildCount()) {
                 setCurrentPosition(pos);
                 postInvalidate();
             }
-        }
 
         return super.dispatchKeyEvent(event);
     }
@@ -49,7 +46,7 @@ public class TvZorderRelativeLayout extends RelativeLayout {
         int pos = indexOfChild(v);
         if (pos >= 0 && pos < childCount)
             setCurrentPosition(pos);
-        
+
         if (i == childCount - 1) {//这是最后一个需要刷新的item
             return position;
         }
