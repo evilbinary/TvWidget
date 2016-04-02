@@ -60,6 +60,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         else if (v == main.getChildAt(6)) {
             intent.setClass(this, DemoFragmentActivity.class);
             startActivity(intent);
+        }else if (v == main.getChildAt(7)) {
+            intent.setClass(this, DemoTopBorderActivity.class);
+            startActivity(intent);
         }
 
     }

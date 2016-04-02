@@ -55,10 +55,12 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/g2"
-                      />
+                    />
 
 
                 <com.flyco.labelview.LabelView
+                    android:tag="top"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"

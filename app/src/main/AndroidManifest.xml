@@ -23,7 +23,7 @@
         <activity android:name=".DemoFragmentActivity"/>
         <activity android:name=".DemoTwoRecyclerViewActivity"/>
         <activity android:name=".DemoHomeActivity"/>
-
+        <activity android:name=".DemoTopBorderActivity"/>
     </application>
 
 </manifest>

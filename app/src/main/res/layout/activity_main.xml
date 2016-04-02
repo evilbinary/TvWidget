@@ -160,7 +160,7 @@
                 android:background="#1fbba6"
                 android:focusable="true"
                 android:gravity="center"
-                android:text="Hello World2"
+                android:text="topBorder示例"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:layout_margin="5dp"

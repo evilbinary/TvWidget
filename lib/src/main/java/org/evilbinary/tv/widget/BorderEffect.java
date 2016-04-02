@@ -31,10 +31,10 @@ public class BorderEffect implements Effect {
 
     protected long mDurationTraslate = 200;
     protected int mMargin = 0;
-    private View lastFocus, oldLastFocus;
-    private AnimatorSet mAnimatorSet;
-    List<Animator> mAnimatorList = new ArrayList<Animator>();
-    private View mTarget;
+    protected View lastFocus, oldLastFocus;
+    protected AnimatorSet mAnimatorSet;
+    protected List<Animator> mAnimatorList = new ArrayList<Animator>();
+    protected View mTarget;
 
     public BorderEffect() {
 
@@ -48,8 +48,8 @@ public class BorderEffect implements Effect {
         public void onFocusChanged(View oldFocus, View newFocus);
     }
 
-    private List<FocusListener> mFocusListener = new ArrayList<FocusListener>(1);
-    private List<Animator.AnimatorListener> mAnimatorListener = new ArrayList<Animator.AnimatorListener>(1);
+    protected List<FocusListener> mFocusListener = new ArrayList<FocusListener>(1);
+    protected List<Animator.AnimatorListener> mAnimatorListener = new ArrayList<Animator.AnimatorListener>(1);
 
 
     public FocusListener focusScaleListener = new FocusListener() {
@@ -85,7 +85,7 @@ public class BorderEffect implements Effect {
             if (newFocus == null) return;
             try {
 
-                mAnimatorList.addAll(getMoveAnimator(newFocus, 1.0f));
+                mAnimatorList.addAll(getMoveAnimator(newFocus));
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -134,7 +134,7 @@ public class BorderEffect implements Effect {
                                 animatorList.addAll(getScaleAnimator(newFocus, true));
                                 if (oldFocus != null)
                                     animatorList.addAll(getScaleAnimator(oldFocus, false));
-                                animatorList.addAll(getMoveAnimator(newFocus, 2.0f));
+                                animatorList.addAll(getMoveAnimator(newFocus));
 
                                 AnimatorSet animatorSet = new AnimatorSet();
                                 animatorSet.setDuration(mDurationTraslate);
@@ -160,7 +160,7 @@ public class BorderEffect implements Effect {
         }
     };
 
-    private List<Animator> getScaleAnimator(View view, boolean isScale) {
+    protected List<Animator> getScaleAnimator(View view, boolean isScale) {
         List<Animator> animatorList = new ArrayList<Animator>(2);
         float scaleBefore = 1.0f;
         float scaleAfter = mScale;
@@ -175,15 +175,15 @@ public class BorderEffect implements Effect {
         return animatorList;
     }
 
-    private List<Animator> getMoveAnimator(View newFocus, float factor) {
+    protected List<Animator> getMoveAnimator(View newFocus) {
         List<Animator> animatorList = new ArrayList<Animator>();
         int newXY[];
         int oldXY[];
 
         try {
 
-            newXY = getGlobalLocation(newFocus);
-            oldXY = getGlobalLocation(mTarget);
+            newXY = getLocation(newFocus);
+            oldXY = getLocation(mTarget);
 
             int newWidth;
             int newHeight;
@@ -240,7 +240,7 @@ public class BorderEffect implements Effect {
         return animatorList;
     }
 
-    private int[] getGlobalLocation(View view) {
+    protected int[] getLocation(View view) {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         return location;
@@ -268,7 +268,7 @@ public class BorderEffect implements Effect {
         public View newFocus;
     }
 
-    private VisibleScope checkVisibleScope(View oldFocus, View newFocus) {
+    protected VisibleScope checkVisibleScope(View oldFocus, View newFocus) {
         VisibleScope scope = new VisibleScope();
         try {
             scope.oldFocus = oldFocus;
@@ -317,7 +317,7 @@ public class BorderEffect implements Effect {
     @Override
     public void onFocusChanged(View target, View oldFocus, View newFocus) {
         try {
-            //Log.d(TAG, "onFocusChanged:"+oldFocus+"="+newFocus);
+            Log.d(TAG, "onFocusChanged:"+oldFocus+"="+newFocus);
 
             if (newFocus == null && attacheViews.indexOf(newFocus) >= 0) {
                 return;
@@ -328,6 +328,7 @@ public class BorderEffect implements Effect {
             lastFocus = newFocus;
             oldLastFocus = oldFocus;
             mTarget = target;
+            Log.d(TAG, "onFocusChanged:111111111"+oldFocus+"="+newFocus);
 
             VisibleScope scope = checkVisibleScope(oldFocus, newFocus);
             if (!scope.isVisible) {
@@ -340,6 +341,7 @@ public class BorderEffect implements Effect {
 
             if (isScrolling || newFocus == null || newFocus.getWidth() <= 0 || newFocus.getHeight() <= 0)
                 return;
+            Log.d(TAG, "onFocusChanged:2222222222"+oldFocus+"="+newFocus);
 
             mAnimatorList.clear();
 
@@ -378,7 +380,7 @@ public class BorderEffect implements Effect {
         }
     }
 
-    private boolean mFirstFocus = true;
+    protected boolean mFirstFocus = true;
 
     public void setFirstFocus(boolean b) {
         this.mFirstFocus = b;
@@ -405,13 +407,23 @@ public class BorderEffect implements Effect {
 
     }
 
-    private boolean isScrolling = false;
+    protected boolean isScrolling = false;
 
-    private List<View> attacheViews = new ArrayList<>();
+    protected List<View> attacheViews = new ArrayList<>();
 
     @Override
     public void onAttach(View target, View attachView) {
         try {
+            mTarget = target;
+
+            if (target.getParent() != null && (target.getParent() instanceof ViewGroup)) {
+                ViewGroup vg = (ViewGroup) target.getParent();
+                vg.removeView(target);
+            }
+
+            ViewGroup vg = (ViewGroup) attachView.getRootView();
+            vg.addView(target);
+
             target.setVisibility(View.GONE);
             if (attachView instanceof RecyclerView) {
                 RecyclerView recyclerView = (RecyclerView) attachView;
@@ -438,7 +450,7 @@ public class BorderEffect implements Effect {
                             List<Animator> list = new ArrayList<>();
 //                            list.addAll(getScaleAnimator(oldLastFocus, false));
                             list.addAll(getScaleAnimator(newFocus, true));
-                            list.addAll(getMoveAnimator(newFocus, 1.0f));
+                            list.addAll(getMoveAnimator(newFocus));
                             animatorSet.setDuration(mDurationTraslate);
                             animatorSet.playTogether(list);
                             animatorSet.start();
@@ -468,6 +480,10 @@ public class BorderEffect implements Effect {
 
     @Override
     public void OnDetach(View targe, View view) {
+        if (targe.getParent() == view) {
+            ((ViewGroup)view).removeView(targe);
+        }
+
         attacheViews.remove(view);
     }
 
@@ -475,8 +491,6 @@ public class BorderEffect implements Effect {
     public <T> T toEffect(Class<T> t) {
         return (T) this;
     }
-
-    private int scrollingX = 0;
 
 
     public boolean isScalable() {
