@@ -2,22 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:gravity="center"
     android:layout_margin="10dp"
+
     android:orientation="vertical">
 
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="400dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
         android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+        android:dividerHeight="8dp"
+        android:drawSelectorOnTop="false"
+
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:gravity="center"
+        android:listSelector="#00000000"
+
         android:scrollbars="none" />
 
 

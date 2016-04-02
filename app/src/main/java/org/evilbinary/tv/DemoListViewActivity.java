@@ -67,7 +67,7 @@ public class DemoListViewActivity extends Activity {
 
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item3, null, false);
+                convertView = LayoutInflater.from(DemoListViewActivity.this).inflate(R.layout.item3, parent, false);
                 viewHolder = new ViewHolder();
                 viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
                 convertView.setTag(viewHolder);
@@ -77,7 +77,7 @@ public class DemoListViewActivity extends Activity {
             //if (position == 0)
             //  convertView.requestFocus();
 
-            viewHolder.text.setText("text" + position);
+            viewHolder.text.setText("我是item" + position);
             return convertView;
         }
 
