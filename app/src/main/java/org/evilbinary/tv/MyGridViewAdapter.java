@@ -1,6 +1,5 @@
 package org.evilbinary.tv;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,13 +42,9 @@ public class MyGridViewAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
             convertView.setTag(viewHolder);
-
-            Log.d("tt", "===="+convertView.getLayoutParams().width );
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        //if (position == 0)
-        //  convertView.requestFocus();
 
         viewHolder.text.setText("text" + position);
         return convertView;

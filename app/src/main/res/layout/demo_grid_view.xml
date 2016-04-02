@@ -3,26 +3,26 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:clipChildren="false"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <GridView
-
+    <org.evilbinary.tv.widget.TvGridView
+        android:drawSelectorOnTop="false"
         android:id="@+id/gridView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="950dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
         android:clipChildren="false"
-        android:focusable="false"
+        android:clipToPadding="false"
+        android:columnWidth="150dp"
         android:gravity="fill_vertical|clip_vertical"
-        android:horizontalSpacing="3dp"
-        android:columnWidth="200dp"
-        android:numColumns="6"
-        android:scrollbars="vertical"
+        android:horizontalSpacing="5dp"
+        android:numColumns="5"
+        android:scrollbars="none"
         android:smoothScrollbar="true"
-        android:verticalSpacing="6dp" />
+        android:verticalSpacing="5dp" />
 
 
 </LinearLayout>

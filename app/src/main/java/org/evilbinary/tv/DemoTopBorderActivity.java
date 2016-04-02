@@ -18,15 +18,6 @@ public class DemoTopBorderActivity extends Activity {
 
     private String TAG = DemoTopBorderActivity.class.getSimpleName();
 
-    public class TopBorderEffect extends BorderEffect {
-        @Override
-        public void onFocusChanged(View target, View oldFocus, View newFocus) {
-            if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
-                mAnimatorSet.end();
-            }
-            super.onFocusChanged(target, oldFocus, newFocus);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +28,7 @@ public class DemoTopBorderActivity extends Activity {
         FrameLayout roundedFrameLayout = new FrameLayout(this);
         roundedFrameLayout.setClipChildren(false);
 
-        final BorderView borderView = new BorderView(roundedFrameLayout, new TopBorderEffect());
+        final BorderView borderView = new BorderView(roundedFrameLayout);
         borderView.setBackgroundResource(R.drawable.border_red);
 
         ViewGroup list = (ViewGroup) findViewById(R.id.list);
