@@ -7,6 +7,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -16,7 +17,9 @@ import android.widget.AdapterView;
 import org.evilbinary.tv.widget.BorderView.Effect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作者:evilbinary on 3/26/16.
@@ -64,22 +67,26 @@ public class BorderEffect implements Effect {
     public FocusListener focusPlayListener = new FocusListener() {
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
-            if (newFocus instanceof AbsListView) {
-                return;
+            try {
+                if (newFocus instanceof AbsListView) {
+                    return;
+                }
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.setInterpolator(new DecelerateInterpolator(1));
+                animatorSet.setDuration(mDurationTraslate);
+                animatorSet.playTogether(mAnimatorList);
+                for (Animator.AnimatorListener listener : mAnimatorListener) {
+                    animatorSet.addListener(listener);
+                }
+                mAnimatorSet = animatorSet;
+                if (oldFocus == null) {
+                    animatorSet.setDuration(0);
+                    mTarget.setVisibility(View.VISIBLE);
+                }
+                animatorSet.start();
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setInterpolator(new DecelerateInterpolator(1));
-            animatorSet.setDuration(mDurationTraslate);
-            animatorSet.playTogether(mAnimatorList);
-            for (Animator.AnimatorListener listener : mAnimatorListener) {
-                animatorSet.addListener(listener);
-            }
-            mAnimatorSet = animatorSet;
-            if (oldFocus == null) {
-                animatorSet.setDuration(0);
-                mTarget.setVisibility(View.VISIBLE);
-            }
-            animatorSet.start();
         }
     };
     public FocusListener focusMoveListener = new FocusListener() {
@@ -101,43 +108,95 @@ public class BorderEffect implements Effect {
 
         @Override
         public void onFocusChanged(View oldFocus, View newFocus) {
-            if (oldFocus == null) {
-                for (int i = 0; i < attacheViews.size(); i++) {
-                    View view = attacheViews.get(i);
-                    if (view instanceof AbsListView) {
-                        final AbsListView absListView = (AbsListView) view;
-                        final View firstView = absListView.getChildAt(0);
-                        mTarget.setVisibility(View.INVISIBLE);
 
-                        if (mFirstFocus) {
-                            absListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                                @Override
-                                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                                    absListView.removeOnLayoutChangeListener(this);
-
-                                    int factorX = 0, factorY = 0;
-                                    Rect rect = new Rect();
-                                    firstView.getLocalVisibleRect(rect);
-                                    if (Math.abs(rect.left - rect.right) > firstView.getMeasuredWidth()) {
-                                        factorX = (Math.abs(rect.left - rect.right) - firstView.getMeasuredWidth()) / 2 - 1;
-                                        factorY = (Math.abs(rect.top - rect.bottom) - firstView.getMeasuredHeight()) / 2;
+            try {
+                Log.d(TAG, "onFocusChanged==>" + oldFocus + " " + newFocus);
+                if (oldFocus == null) {
+                    for (int i = 0; i < attacheViews.size(); i++) {
+                        View view = attacheViews.get(i);
+                        if (view instanceof AbsListView) {
+                            final AbsListView absListView = (AbsListView) view;
+                            mTarget.setVisibility(View.INVISIBLE);
+                            if (mFirstFocus) {
+                                absListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                                    @Override
+                                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                                        try {
+                                            absListView.removeOnLayoutChangeListener(this);
+                                            int factorX = 0, factorY = 0;
+                                            Rect rect = new Rect();
+                                            View firstView = (View) absListView.getSelectedView();
+                                            firstView.getLocalVisibleRect(rect);
+                                            if (Math.abs(rect.left - rect.right) > firstView.getMeasuredWidth()) {
+                                                factorX = (Math.abs(rect.left - rect.right) - firstView.getMeasuredWidth()) / 2 - 1;
+                                                factorY = (Math.abs(rect.top - rect.bottom) - firstView.getMeasuredHeight()) / 2;
+                                            }
+                                            List<Animator> animatorList = new ArrayList<Animator>(3);
+                                            animatorList.addAll(getScaleAnimator(firstView, true));
+                                            animatorList.addAll(getMoveAnimator(firstView, factorX, factorY));
+                                            mTarget.setVisibility(View.VISIBLE);
+                                            AnimatorSet animatorSet = new AnimatorSet();
+                                            animatorSet.setDuration(0);
+                                            animatorSet.playTogether(animatorList);
+                                            animatorSet.start();
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        }
                                     }
-                                    List<Animator> animatorList = new ArrayList<Animator>(3);
-                                    animatorList.addAll(getScaleAnimator(firstView, true));
-                                    animatorList.addAll(getMoveAnimator(firstView, factorX, factorY));
-                                    mTarget.setVisibility(View.VISIBLE);
-                                    AnimatorSet animatorSet = new AnimatorSet();
-                                    animatorSet.setDuration(0);
-                                    animatorSet.playTogether(animatorList);
-                                    animatorSet.start();
-
-                                }
-                            });
+                                });
 
 
+                            }
+                            break;
                         }
                     }
+                } else if (oldFocus instanceof AbsListView && newFocus instanceof AbsListView) {
+                    if (attacheViews.indexOf(oldFocus) >= 0 && attacheViews.indexOf(newFocus) >= 0) {
+
+                        AbsListView a = (AbsListView) oldFocus;
+                        AbsListView b = (AbsListView) newFocus;
+
+                        MyOnItemSelectedListener oldOn = (MyOnItemSelectedListener) onItemSelectedListenerList.get(oldFocus);
+                        MyOnItemSelectedListener newOn = (MyOnItemSelectedListener) onItemSelectedListenerList.get(newFocus);
+
+
+                        int factorX = 0, factorY = 0;
+                        Rect rect = new Rect();
+                        View firstView = (View) b.getSelectedView();
+                        firstView.getLocalVisibleRect(rect);
+                        if (Math.abs(rect.left - rect.right) > firstView.getMeasuredWidth()) {
+                            factorX = (Math.abs(rect.left - rect.right) - firstView.getMeasuredWidth()) / 2 - 1;
+                            factorY = (Math.abs(rect.top - rect.bottom) - firstView.getMeasuredHeight()) / 2;
+                        }
+
+                        List<Animator> animatorList = new ArrayList<Animator>(3);
+                        animatorList.addAll(getScaleAnimator(firstView, true));
+                        animatorList.addAll(getScaleAnimator(a.getSelectedView(), false));
+
+                        animatorList.addAll(getMoveAnimator(firstView, factorX, factorY));
+                        mTarget.setVisibility(View.VISIBLE);
+
+                        mAnimatorSet = new AnimatorSet();
+
+
+                        mAnimatorSet.setDuration(mDurationTraslate);
+                        mAnimatorSet.playTogether(animatorList);
+                        mAnimatorSet.start();
+
+                        oldOn.oldFocus = null;
+                        oldOn.newFocus = null;
+
+                        newOn.oldFocus = null;
+                        if (newOn.newFocus != null && newOn.oldFocus != null) {
+                            newOn.newFocus = null;
+                        } else {
+                            newOn.newFocus = b.getSelectedView();
+                        }
+
+                    }
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     };
@@ -158,6 +217,7 @@ public class BorderEffect implements Effect {
     }
 
     protected List<Animator> getMoveAnimator(View newFocus, int factorX, int factorY) {
+
         List<Animator> animatorList = new ArrayList<Animator>();
         int newXY[];
         int oldXY[];
@@ -224,7 +284,11 @@ public class BorderEffect implements Effect {
 
     protected int[] getLocation(View view) {
         int[] location = new int[2];
-        view.getLocationOnScreen(location);
+        try {
+            view.getLocationOnScreen(location);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return location;
     }
 
@@ -256,20 +320,24 @@ public class BorderEffect implements Effect {
             scope.oldFocus = oldFocus;
             scope.newFocus = newFocus;
             scope.isVisible = true;
+            if (attacheViews.indexOf(oldFocus) >= 0 && attacheViews.indexOf(newFocus) >= 0) {
+                return scope;
+            }
+
             if (oldFocus != null && newFocus != null) {
                 if (oldFocus.getParent() != newFocus.getParent()) {
-                    //Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
+                    Log.d(TAG, "=====>" + attacheViews.indexOf(newFocus.getParent()) + "=" + attacheViews.indexOf(oldFocus.getParent()));
 
                     if ((attacheViews.indexOf(newFocus.getParent()) < 0) || (attacheViews.indexOf(oldFocus.getParent()) < 0 && attacheViews.indexOf(newFocus.getParent()) > 0)) {
                         mTarget.setVisibility(View.INVISIBLE);
                         AnimatorSet animatorSet = new AnimatorSet();
                         animatorSet.playTogether(getScaleAnimator(oldFocus, false));
                         animatorSet.setDuration(0).start();
-                        //Log.d(TAG, "=====>1");
+                        Log.d(TAG, "=====>1");
                         scope.isVisible = false;
                         return scope;
                     } else {
-                        //Log.d(TAG, "=====>2");
+                        Log.d(TAG, "=====>2");
 
                         mTarget.setVisibility(View.VISIBLE);
                     }
@@ -280,14 +348,14 @@ public class BorderEffect implements Effect {
                 } else {
                     if (attacheViews.indexOf(newFocus.getParent()) < 0) {
                         mTarget.setVisibility(View.INVISIBLE);
-                        //Log.d(TAG, "=====>3");
+                        Log.d(TAG, "=====>3");
                         scope.isVisible = false;
                         return scope;
                     }
-                    //Log.d(TAG, "=====>4");
+                    Log.d(TAG, "=====>4");
 
                 }
-                //Log.d(TAG, "=====>5");
+                Log.d(TAG, "=====>5");
             }
             mTarget.setVisibility(View.VISIBLE);
         } catch (Exception ex) {
@@ -299,7 +367,7 @@ public class BorderEffect implements Effect {
     @Override
     public void onFocusChanged(View target, View oldFocus, View newFocus) {
         try {
-            //Log.d(TAG, "onFocusChanged:" + oldFocus + "=" + newFocus);
+            Log.d(TAG, "onFocusChanged:" + oldFocus + "=" + newFocus);
 
             if (newFocus == null && attacheViews.indexOf(newFocus) >= 0) {
                 return;
@@ -314,7 +382,7 @@ public class BorderEffect implements Effect {
             lastFocus = newFocus;
             oldLastFocus = oldFocus;
             mTarget = target;
-            //Log.d(TAG, "onFocusChanged:111111111" + oldFocus + "=" + newFocus);
+            Log.d(TAG, "onFocusChanged:111111111" + oldFocus + "=" + newFocus);
 
             VisibleScope scope = checkVisibleScope(oldFocus, newFocus);
             if (!scope.isVisible) {
@@ -327,7 +395,7 @@ public class BorderEffect implements Effect {
 
             if (isScrolling || newFocus == null || newFocus.getWidth() <= 0 || newFocus.getHeight() <= 0)
                 return;
-            //Log.d(TAG, "onFocusChanged:2222222222" + oldFocus + "=" + newFocus);
+            Log.d(TAG, "onFocusChanged:2222222222" + oldFocus + "=" + newFocus);
 
             mAnimatorList.clear();
 
@@ -383,9 +451,7 @@ public class BorderEffect implements Effect {
                     animatorSet.playTogether(getScaleAnimator(lastFocus, false));
                     animatorSet.setDuration(0).start();
                 }
-
             }
-
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -396,7 +462,7 @@ public class BorderEffect implements Effect {
     protected boolean isScrolling = false;
 
     protected List<View> attacheViews = new ArrayList<>();
-    protected List<AdapterView.OnItemSelectedListener> onItemSelectedListenerList = new ArrayList<>();
+    protected Map<View, AdapterView.OnItemSelectedListener> onItemSelectedListenerList = new HashMap<>();
 
 
     @Override
@@ -458,10 +524,7 @@ public class BorderEffect implements Effect {
                     }
                 };
                 recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-            }
-
-
-            if (attachView instanceof AbsListView) {
+            } else if (attachView instanceof AbsListView) {
 
                 final AbsListView absListView = (AbsListView) attachView;
                 final AdapterView.OnItemSelectedListener onItemSelectedListener = absListView.getOnItemSelectedListener();
@@ -471,57 +534,11 @@ public class BorderEffect implements Effect {
                     temp = absListView.getChildAt(0);
                 }
                 final View tempFocus = temp;
-                absListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    private View oldFocus = tempFocus;
-                    private View newFocus = null;
-
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        newFocus = view;
-//                        Log.d(TAG, "==========>");
-                        Rect rect = new Rect();
-                        view.getLocalVisibleRect(rect);
-
-                        ViewGroup vg = (ViewGroup) newFocus.getParent();
-//                        Log.d(TAG, "onItemSelected:" + vg.getWidth() + " " + newFocus.getMeasuredWidth() + " w=" + (rect.left - rect.right));
-
-                        int factorX = 0, factorY = 0;
-                        if (Math.abs(rect.left - rect.right) > newFocus.getMeasuredWidth()) {
-                            factorX = (Math.abs(rect.left - rect.right) - newFocus.getMeasuredWidth()) / 2 - 1;
-                            factorY = (Math.abs(rect.top - rect.bottom) - newFocus.getMeasuredHeight()) / 2;
-
-                        }
-                        if (onItemSelectedListener != null && parent != null) {
-                            onItemSelectedListener.onItemSelected(parent, view, position, id);
-                        }
-
-                        List<Animator> animatorList = new ArrayList<Animator>(3);
-                        animatorList.addAll(getScaleAnimator(newFocus, true));
-                        if (oldFocus != null)
-                            animatorList.addAll(getScaleAnimator(oldFocus, false));
-                        animatorList.addAll(getMoveAnimator(newFocus, factorX, factorY));
-                        mTarget.setVisibility(View.VISIBLE);
-
-                        AnimatorSet animatorSet = new AnimatorSet();
-
-                        animatorSet.setDuration(mDurationTraslate);
-                        animatorSet.playTogether(animatorList);
-                        animatorSet.start();
-
-
-                        oldFocus = newFocus;
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        //Log.d(TAG, "onNothingSelected");
-                        if (onItemSelectedListener != null) {
-                            onItemSelectedListener.onNothingSelected(parent);
-                        }
-                    }
-                });
-                onItemSelectedListenerList.add(onItemSelectedListener);
+                MyOnItemSelectedListener myOnItemSelectedListener = new MyOnItemSelectedListener();
+                myOnItemSelectedListener.onItemSelectedListener = onItemSelectedListener;
+                myOnItemSelectedListener.oldFocus = temp;
+                absListView.setOnItemSelectedListener(myOnItemSelectedListener);
+                onItemSelectedListenerList.put(attachView, myOnItemSelectedListener);
 
             }
 
@@ -531,6 +548,65 @@ public class BorderEffect implements Effect {
         }
 
     }
+
+    protected class MyOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        public View oldFocus = null;
+        public View newFocus = null;
+        public AnimatorSet animatorSet;
+        public AdapterView.OnItemSelectedListener onItemSelectedListener;
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (onItemSelectedListener != null && parent != null) {
+                onItemSelectedListener.onItemSelected(parent, view, position, id);
+            }
+            if (newFocus == null)
+                return;
+            newFocus = view;
+            Log.d(TAG, "onItemSelected");
+
+            Rect rect = new Rect();
+            view.getLocalVisibleRect(rect);
+
+            ViewGroup vg = (ViewGroup) newFocus.getParent();
+//                        Log.d(TAG, "onItemSelected:" + vg.getWidth() + " " + newFocus.getMeasuredWidth() + " w=" + (rect.left - rect.right));
+
+            int factorX = 0, factorY = 0;
+            if (Math.abs(rect.left - rect.right) > newFocus.getMeasuredWidth()) {
+                factorX = (Math.abs(rect.left - rect.right) - newFocus.getMeasuredWidth()) / 2 - 1;
+                factorY = (Math.abs(rect.top - rect.bottom) - newFocus.getMeasuredHeight()) / 2;
+
+            }
+
+
+            List<Animator> animatorList = new ArrayList<Animator>(3);
+            animatorList.addAll(getScaleAnimator(newFocus, true));
+            if (oldFocus != null)
+                animatorList.addAll(getScaleAnimator(oldFocus, false));
+            animatorList.addAll(getMoveAnimator(newFocus, factorX, factorY));
+            mTarget.setVisibility(View.VISIBLE);
+
+            if (animatorSet != null && animatorSet.isRunning())
+                animatorSet.end();
+            animatorSet = new AnimatorSet();
+            animatorSet.setDuration(mDurationTraslate);
+            animatorSet.playTogether(animatorList);
+            animatorSet.start();
+
+
+            oldFocus = newFocus;
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            Log.d(TAG, "onNothingSelected");
+            if (onItemSelectedListener != null) {
+                onItemSelectedListener.onNothingSelected(parent);
+            }
+        }
+    }
+
 
     @Override
     public void OnDetach(View targe, View view) {
