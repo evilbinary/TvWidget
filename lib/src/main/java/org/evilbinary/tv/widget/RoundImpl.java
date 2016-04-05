@@ -33,9 +33,9 @@ public class RoundImpl {
     private RoundedView mView;
 
 
-    public RoundImpl(RoundedView view,Context context, AttributeSet attrs, int defStyle) {
-        init(context,attrs,defStyle);
-        mView=view;
+    public RoundImpl(RoundedView view, Context context, AttributeSet attrs, int defStyle) {
+        init(context, attrs, defStyle);
+        mView = view;
     }
 
 
@@ -70,12 +70,17 @@ public class RoundImpl {
         a.recycle();
 
     }
+
     public interface RoundedView {
 
         public void drawSuper(Canvas canvas);
+
         public Context getContext();
+
         public RoundImpl getRoundImpl();
+
         public int getWidth();
+
         public int getHeight();
     }
 
@@ -91,24 +96,15 @@ public class RoundImpl {
         int height = mView.getHeight();
 
         int count = canvas.save();
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(bitmap);
-        int count2 = canvas2.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
+        int count2 = canvas.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
 
         addRoundPath(width, height);
-
-
-        mView.drawSuper(canvas2);
-
-
-        canvas2.drawPath(mPath, mPaint);
-
-        canvas2.restoreToCount(count2);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        bitmap.recycle();
+        mView.drawSuper(canvas);
+        canvas.drawPath(mPath, mPaint);
+        canvas.restoreToCount(count2);
         //drawBorder(canvas);
         canvas.restoreToCount(count);
+
 
     }
 
@@ -187,7 +183,6 @@ public class RoundImpl {
         canvas.restoreToCount(count);
         return output;
     }
-
 
 
 }
