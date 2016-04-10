@@ -39,6 +39,8 @@ public class BorderEffect implements Effect {
     protected List<Animator> mAnimatorList = new ArrayList<Animator>();
     protected View mTarget;
 
+    protected boolean mEnableTouch=true;
+
     public BorderEffect() {
 
         mFocusListener.add(focusMoveListener);
@@ -450,7 +452,7 @@ public class BorderEffect implements Effect {
     public void onTouchModeChanged(View target, View attachView, boolean isInTouchMode) {
         try {
             //Log.d(TAG, "onTouchModeChanged:"+isInTouchMode);
-            if (isInTouchMode) {
+            if (mEnableTouch&&isInTouchMode) {
                 target.setVisibility(View.INVISIBLE);
                 if (lastFocus != null) {
                     AnimatorSet animatorSet = new AnimatorSet();
@@ -636,7 +638,9 @@ public class BorderEffect implements Effect {
         return (T) this;
     }
 
-
+    public void setEnableTouch(boolean enableTouch){
+        this.mEnableTouch=enableTouch;
+    }
     public boolean isScalable() {
         return mScalable;
     }
