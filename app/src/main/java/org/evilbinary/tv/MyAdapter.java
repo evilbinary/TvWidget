@@ -17,6 +17,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private String[] mDataset;
     private Context mContex;
     private int id;
+    private View.OnFocusChangeListener mOnFocusChangeListener;
 
     public MyAdapter(Context context, String[] dataset) {
         super();
@@ -30,6 +31,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         this.id=id;
     }
 
+    public MyAdapter(Context context, String[] dataset,int id,View.OnFocusChangeListener onFocusChangeListener) {
+        super();
+        mContex = context;
+        mDataset = dataset;
+        this.id=id;
+        this.mOnFocusChangeListener=onFocusChangeListener;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -40,13 +49,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         View view = LayoutInflater.from(mContex).inflate(resId, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
 
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         viewHolder.mTextView.setText(mDataset[i]);
+        viewHolder.itemView.setTag(i);
+        viewHolder.itemView.setOnFocusChangeListener(mOnFocusChangeListener);
+
     }
 
     @Override
@@ -65,5 +76,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
+    public void setData(String[] data){
+        this.mDataset=data;
+    }
 
 }

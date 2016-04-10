@@ -24,6 +24,9 @@
         <activity android:name=".DemoTwoRecyclerViewActivity"/>
         <activity android:name=".DemoHomeActivity"/>
         <activity android:name=".DemoTopBorderActivity"/>
+        <activity android:name=".DemoMenuActivity"/>
+
+
     </application>
 
 </manifest>

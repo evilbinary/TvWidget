@@ -204,6 +204,7 @@ public class BorderEffect implements Effect {
     protected List<Animator> getScaleAnimator(View view, boolean isScale) {
 
         List<Animator> animatorList = new ArrayList<Animator>(2);
+        if(!mScalable) return animatorList;
         try {
             float scaleBefore = 1.0f;
             float scaleAfter = mScale;
