@@ -28,7 +28,8 @@ public class DemoMenuActivity extends Activity {
 
     };
 
-    private  MyAdapter secondAdapter;
+    private MyAdapter secondAdapter;
+    private View lastFocus = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +43,40 @@ public class DemoMenuActivity extends Activity {
         RecyclerView firstRecyclerView = (RecyclerView) findViewById(R.id.firstRecyclerView);
         RecyclerView secondRecyclerView = (RecyclerView) findViewById(R.id.secondRecyclerView);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this,1);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         firstRecyclerView.setLayoutManager(layoutManager);
         firstRecyclerView.setFocusable(false);
 
 
-
-        GridLayoutManager layoutManager2 = new GridLayoutManager(this,1);
+        GridLayoutManager layoutManager2 = new GridLayoutManager(this, 1);
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         secondRecyclerView.setLayoutManager(layoutManager2);
         secondRecyclerView.setFocusable(false);
 
 
-        secondAdapter=new MyAdapter(this,new String[]{},R.layout.item_menu);
+        secondAdapter = new MyAdapter(this, new String[]{}, R.layout.item_menu_sub);
         secondRecyclerView.setAdapter(secondAdapter);
 
 
         // 创建Adapter，并指定数据集
-        MyAdapter adapter = new MyAdapter(this, mCategory,R.layout.item_menu,new View.OnFocusChangeListener(){
-
+        MyAdapter adapter = new MyAdapter(this, mCategory, R.layout.item_menu, new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
                     int pos = (int) v.getTag();
                     secondAdapter.setData(mDatas[pos]);
                     secondAdapter.notifyDataSetChanged();
-                    Log.d("tt", "onFocusChange===>"+pos);
+                    Log.d("tt", "onFocusChange===>" + pos);
+
+                    if(lastFocus!=null)
+                        lastFocus.setBackgroundResource(R.drawable.list_item_shape);
+                    lastFocus = v;
+                    v.setBackgroundResource(R.drawable.shape);
+
+
+                } else {
+                    //v.setBackgroundColor(Color.RED);
                 }
             }
         });
@@ -81,11 +89,7 @@ public class DemoMenuActivity extends Activity {
         border.attachTo(secondRecyclerView);
 
 
-
     }
-
-
-
 
 
 }

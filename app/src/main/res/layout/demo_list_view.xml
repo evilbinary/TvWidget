@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="horizontal">
 
 
     <ListView
+
         android:id="@+id/listView"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
@@ -19,12 +20,25 @@
         android:paddingRight="10dp"
 
         android:dividerHeight="8dp"
-        android:drawSelectorOnTop="false"
-
-        android:focusable="false"
-        android:listSelector="#00000000"
+        android:drawSelectorOnTop="true"
 
         android:scrollbars="none" />
 
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+        android:dividerHeight="8dp"
+        android:drawSelectorOnTop="true"
+
+        android:scrollbars="none" />
+    <!--android:listSelector="#00000000"-->
 
 </LinearLayout>
