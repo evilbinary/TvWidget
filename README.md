@@ -50,7 +50,7 @@ tv常用效果控件，包括焦点、边框处理等。qq群:537960195
                   android:textSize="24dp" />
          </org.evilbinary.tv.widget.RoundedFrameLayout>
         
-#项目捐赠
+# 项目捐赠
 
 ![喜欢就支持一下](https://github.com/evilbinary/myblog/raw/master/data/s.png)
 # Developed By
@@ -59,7 +59,7 @@ tv常用效果控件，包括焦点、边框处理等。qq群:537960195
 * evilbinary <rootdebug@163.com> 
 * 个人博客 [http://evilbinary.org](http://evilbinary.org)
 
-#项目主页
+# 项目主页
 * [https://github.com/evilbinary/TvWidget](https://github.com/evilbinary/TvWidget)
 
 # License
