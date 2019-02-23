@@ -13,15 +13,16 @@ TV常用效果控件，包括焦点、边框处理等。qq群:537960195
 
 # 使用
 
-		//基本用法
-		BorderView border=new BorderView(this);
+	//基本用法
+	BorderView border=new BorderView(this);
         border.setBackgroundResource(R.drawable.item_highlight);
-
         RelativeLayout main= (RelativeLayout) findViewById(R.id.main);
         border.attachTo(main);
-        
+	
         //自定义布局        
         BorderView borderView = new BorderView<RelativeLayout>(this,R.layout.custom_item);
+	//设置放大倍数1.2
+	borderView.getEffect().setScale(1.2);
 
         //圆角布局 app:radius 为圆角大小
         <org.evilbinary.tv.widget.RoundedFrameLayout
